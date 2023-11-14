@@ -1,0 +1,17 @@
+version: "3.9"
+
+name: interbook
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:13.3-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=${PSQLDB}
+      - POSTGRES_PASSWORD=${PSQLP}
+      - POSTGRES_USER=${PSQLU}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../data/psql-data:/var/lib/postgresql/data
