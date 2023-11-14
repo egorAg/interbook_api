@@ -2,6 +2,7 @@
 /backend/node_modules
 /backend/bun.lockb
 /backend/.env
+/backend/yarn.lock
 /docker/.env
 .DS_Store
 /data
