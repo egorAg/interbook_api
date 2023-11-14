@@ -1,0 +1,4 @@
+export default () => ({
+  port: parseInt(process.env.PORT, 10) || 8080,
+  environment: process.env.ENV ?? 'local'
+});
