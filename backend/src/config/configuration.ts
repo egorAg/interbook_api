@@ -1,3 +1,5 @@
+import * as process from "process";
+
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 8080,
   environment: process.env.ENV ?? 'local',
@@ -10,4 +12,8 @@ export default () => ({
     database: process.env.DB_NAME,
     synchronize: process.env.ENV !== 'prod',
   },
+  secrets: {
+    jwt_access: process.env.JWT_ACCESS,
+    jwt_refresh: process.env.JWT_REFRESH,
+  }
 });
