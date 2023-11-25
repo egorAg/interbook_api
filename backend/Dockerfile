@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 CMD ["npm", "install", " -g", "yarn"]
-
+CMD ["npm", "install", "-g", "@nestjs/cli"]
 CMD ["yarn", "install"]
 
 COPY . .
