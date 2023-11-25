@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:16
 
 WORKDIR /usr/src/app
 
@@ -6,8 +6,6 @@ COPY package.json ./
 
 COPY . .
 
-RUN yarn cache clean
-RUN yarn install --frozen-lockfile --production
-RUN yarn run build
+RUN npm install
 
-RUN yarn start:dev
+RUN npm run start:dev
