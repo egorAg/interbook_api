@@ -6,8 +6,8 @@ COPY package*.json ./
 
 COPY . .
 
-RUN yarn install --frozen-lockfile --production
 RUN yarn cache clean
+RUN yarn install --frozen-lockfile --production
 RUN yarn run build
 
 RUN yarn start:dev
