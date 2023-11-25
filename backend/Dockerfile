@@ -6,7 +6,7 @@ COPY package*.json ./
 
 CMD ["npm", "install", " -g", "yarn"]
 
-CMD ["yarn"]
+CMD ["yarn", "install"]
 
 COPY . .
 
