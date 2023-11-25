@@ -1,6 +1,6 @@
 version: "3.9"
 
-name: interbook_api
+name: docker
 
 services:
   postgres:
