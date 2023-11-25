@@ -1,7 +1,5 @@
 version: "3.9"
 
-name: docker
-
 services:
   postgres:
     container_name: postgres
