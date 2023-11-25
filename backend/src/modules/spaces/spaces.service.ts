@@ -162,4 +162,16 @@ export class SpacesService {
 
     await this.spaceRepo.save(space);
   }
+
+  async setWorkspace(userId: number, spaceId: number) {
+    const user = await this.userService.getUser(userId, false);
+    const space = await this.getSpaceById(spaceId);
+
+    EventBus.pub(
+      EventsKeys.WORKSPACE_UPDATE.produce({
+        user: user,
+        space: space,
+      }),
+    );
+  }
 }

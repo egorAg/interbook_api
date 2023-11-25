@@ -23,4 +23,11 @@ export namespace EventsKeys {
     space: Space;
     token: string;
   }>('SPACE_INVITE');
+
+  export const WORKSPACE_UPDATE = new EventFactory<{
+    user: User;
+    space: Space;
+  }>('WORKSPACE_UPDATE');
+
+  export const USER_LOGIN = new EventFactory<User>('USER_LOGIN');
 }

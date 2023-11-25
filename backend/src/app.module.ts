@@ -10,6 +10,7 @@ import { SpacesModule } from '@/modules/spaces/spaces.module';
 import { KeyStorageModule } from '@/services/keyStorage/keyStorage.module';
 import { EventHandlingModule } from '@/services/eventHanling/eventHandling.module';
 import { CandidateModule } from '@/modules/candidate/candidate.module';
+import { SessionModule } from '@/modules/session/session.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { CandidateModule } from '@/modules/candidate/candidate.module';
     KeyStorageModule,
     EventHandlingModule,
     CandidateModule,
+    SessionModule,
   ],
   providers: [],
 })

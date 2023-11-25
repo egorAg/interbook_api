@@ -78,7 +78,7 @@ export class AuthController {
   public async me(@UserId() userId: number) {
     const data = await this.authService.me(userId);
 
-    delete data.refreshToken;
+    delete data.user.refreshToken;
 
     return data;
   }

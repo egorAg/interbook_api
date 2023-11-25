@@ -20,11 +20,11 @@ import { WorkSpaceSchema } from '@/schemas/workSpaceSchema';
 @ApiTags('Spaces')
 @ApiBearerAuth()
 @ApiUnauthorized
+@Auth()
 @Controller('space')
 export class SpacesController {
   constructor(private service: SpacesService) {}
 
-  @Auth()
   @ApiOperation({
     description: 'create new workspace',
   })
@@ -41,7 +41,6 @@ export class SpacesController {
   @ApiOperation({
     description: 'Get workspace data',
   })
-  @Auth()
   @ApiParam({
     name: 'id',
     description: 'WorkspaceId',
@@ -63,7 +62,6 @@ export class SpacesController {
   @ApiOperation({
     description: 'Create invite token for workspace',
   })
-  @Auth()
   @ApiResponse({
     status: 200,
     schema: InviteTokenSchema,
@@ -82,7 +80,6 @@ export class SpacesController {
   @ApiOperation({
     description: 'Accept invite in workspace',
   })
-  @Auth()
   @ApiBadRequestResponse([
     "Can't find provided token",
     "Can't parse spaceId from token",
@@ -106,5 +103,22 @@ export class SpacesController {
     @Param('token') token: string,
   ) {
     return this.service.acceptInvite(token, id);
+  }
+
+  @ApiOperation({
+    description: 'Set workspace to user',
+  })
+  @ApiResponse({
+    description: 'Success',
+    status: 201,
+  })
+  @ApiUserNotFoundResponse
+  @ApiBadRequestResponse('Can\'t find space with id: "N"')
+  @Get('switch/:id')
+  public async switchSpace(
+    @UserId() userId: number,
+    @Param('id') spaceId: number,
+  ) {
+    await this.service.setWorkspace(userId, spaceId);
   }
 }

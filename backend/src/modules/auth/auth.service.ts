@@ -8,12 +8,15 @@ import { UserService } from '@/modules/user/user.service';
 import { CryptoService } from '@/modules/crypto/crypto.service';
 import { UserCreateDto } from '@/modules/auth/dto/user.create.dto';
 import { UserAuthDto } from '@/modules/auth/dto/user.auth.dto';
+import { SessionService } from '@/modules/session/session.service';
+import { EventBus, EventsKeys } from '@/services/eventBus';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly cryptoService: CryptoService,
+    private readonly sessionService: SessionService,
   ) {}
 
   public async register(data: UserCreateDto) {
@@ -42,11 +45,19 @@ export class AuthService {
 
     await this.userService.setRefreshToken(user, tokens.refresh_token);
 
+    EventBus.pub(EventsKeys.USER_LOGIN.produce(user));
+
     return tokens;
   }
 
   public async me(userId: number) {
-    return this.userService.getUser(userId, false);
+    const user = await this.userService.getUser(userId, false);
+    const activeSpace = await this.sessionService.getActiveWorkspace(user);
+
+    return {
+      user,
+      activeWorkspace: activeSpace ?? null,
+    };
   }
 
   async refresh(data: { id: number; ref: string }) {

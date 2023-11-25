@@ -41,7 +41,7 @@ export class CandidateService {
 
     if (!candidate) {
       throw new HttpException(
-        `Cna't find candidate with id: ${candidateId}`,
+        `Can't find candidate with id: ${candidateId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -52,10 +52,10 @@ export class CandidateService {
   public async getAll(spaceId: number) {
     const space = await this.spaceService.getSpaceById(spaceId);
 
-    return await this.candidateRepo.find( {
+    return await this.candidateRepo.find({
       where: {
         space,
       },
-    } );
+    });
   }
 }

@@ -23,5 +23,9 @@ export const UserSchema: SchemaObject = {
         },
       ],
     },
+    activeWorkspace: {
+      properties: SpaceSchema.properties,
+      example: SpaceSchema.example,
+    },
   },
 };

@@ -15,11 +15,26 @@ services:
       - "5432:5432"
     volumes:
       - ../data/psql-data:/var/lib/postgresql/data
+
   cache:
     image: redis:6.2-alpine
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDISPASS}
     volumes:
       - ../data/redis-data:/data
+
+  node:
+    build:
+      dockerfile: ../backend/Dockerfile
+      context: ../backend
+    environment:
+      - PORT=${NODE_PORT}
+    ports:
+      - ${NODE_PORT}:${NODE_PORT}
+    volumes:
+      - ../backend/src:/app/src
+    depends_on:
+      - cache
+      - postgres
