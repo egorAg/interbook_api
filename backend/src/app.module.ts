@@ -6,6 +6,9 @@ import { UserModule } from '@/modules/user/user.module';
 import configuration from '@/config/configuration';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { CryptoModule } from '@/modules/crypto/crypto.module';
+import { SpacesModule } from "@/modules/spaces/spaces.module";
+import { KeyStorageModule } from "@/services/keyStorage/keyStorage.module";
+import { EventHandlingModule } from "@/services/eventHanling/eventHandling.module";
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { CryptoModule } from '@/modules/crypto/crypto.module';
     UserModule,
     AuthModule,
     CryptoModule,
+    SpacesModule,
+      KeyStorageModule,
+      EventHandlingModule
   ],
   providers: [],
 })

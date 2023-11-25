@@ -15,14 +15,13 @@ export const Refresh = createParamDecorator(
 
     const payload = jwt.decode(authToken) as unknown as {
       sub: number;
-      login: string;
       iat: number;
       exp: number;
     };
 
     if (payload.exp * 1000 > payload.iat * 1000) {
       return {
-        login: payload.login,
+        id: payload.sub,
         ref: authToken,
       };
     } else {

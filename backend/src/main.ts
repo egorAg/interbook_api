@@ -12,10 +12,24 @@ async function bootstrap() {
       .setTitle('InterBook API')
       .setDescription('The InterBook API description')
       .setVersion('1.0')
+      .addBearerAuth(
+          {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+            name: 'JWT',
+            description: 'Enter access_token',
+            in: 'header',
+          },
+          "JWT-Auth")
       .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('explorer', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      defaultModelsExpandDepth: -1
+    }
+  });
 
   await app.listen(PORT);
 

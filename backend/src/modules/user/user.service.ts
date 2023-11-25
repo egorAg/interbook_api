@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UserData } from "@/modules/user/entities/user-data.entity";
 import { User } from "@/modules/user/entities/user.entity";
 import { UserCreateDto } from "@/modules/auth/dto/user.create.dto";
+import { Space } from "@/modules/spaces/entities/space.entity";
 
 @Injectable()
 export class UserService {
@@ -33,6 +34,7 @@ export class UserService {
     user.isActive = true;
     user.login = data.login;
     user.password = data.password;
+    user.spaces = [];
 
     const userData = this.userDataRepo.create();
 
@@ -50,12 +52,13 @@ export class UserService {
   }
 
   public async getUser(id: number, selectPass = true) {
-    const candidate = await this.userRepo.findOne({
-      where: {
-        id,
-      },
-      relations: ['userData'],
-    });
+    const candidate = await this.userRepo
+        .createQueryBuilder('user')
+        .select(['user.id', 'user.login', 'user.password', 'user.refreshToken'])
+        .leftJoinAndSelect('user.userData', 'userData')
+        .leftJoinAndSelect('user.spaces', 'spaces')
+        .where('user.id = :id', { id })
+        .getOne();
 
     if (!candidate) {
       throw new HttpException(
@@ -72,25 +75,38 @@ export class UserService {
   }
 
   public async getUserByLogin(login: string) {
-    const candidate = await this.userRepo.findOne({
-      where: {
-        login,
-      },
-    });
+    const candidate = await this.userRepo
+        .createQueryBuilder('user')
+        .select(['user.id', 'user.login', 'user.password'])
+        .leftJoinAndSelect('user.userData', 'userData')
+        .leftJoinAndSelect('user.spaces', 'spaces')
+        .where('user.login = :login', { login })
+        .getOne();
 
     if (!candidate) {
       throw new HttpException(
         `User with login: ${login} not found`,
-        HttpStatus.NO_CONTENT,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
     return candidate;
   }
 
-  public async getUserData(userId: number) {
-    const candidate = await this.getUser(userId);
+  public async addSpace(user: User, space: Space) {
+    if ( !user.spaces ) {
+      user.spaces = [space]
+    } else {
+      user.spaces = [...user.spaces, space];
+    }
 
-    return candidate.userData;
+    await this.userRepo.save(user);
+  }
+
+  async setRefreshToken ( user: User, refreshToken: string ) {
+    await this.userRepo.save({
+      ...user,
+      refreshToken
+    })
   }
 }

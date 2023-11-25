@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { UserService } from "@/modules/user/user.service";
 import { CryptoService } from "@/modules/crypto/crypto.service";
 import { UserCreateDto } from "@/modules/auth/dto/user.create.dto";
@@ -33,10 +33,28 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return this.cryptoService.generateTokenPair(user);
+    const tokens = await this.cryptoService.generateTokenPair(user);
+
+    await this.userService.setRefreshToken(user, tokens.refresh_token)
+
+    return tokens
   }
 
   public async me(userId: number) {
     return this.userService.getUser(userId, false);
+  }
+
+  async refresh ( data: { id: number; ref: string } ) {
+    const user = await this.userService.getUser( data.id );
+
+    if ( user.refreshToken !== data.ref ) {
+      throw new HttpException(`Invalid refresh token`, HttpStatus.BAD_REQUEST)
+    }
+
+    const tokens = await this.cryptoService.generateTokenPair( user );
+
+    await this.userService.setRefreshToken(user, tokens.refresh_token);
+
+    return tokens
   }
 }
