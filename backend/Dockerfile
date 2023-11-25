@@ -1,13 +1,20 @@
-FROM node:18.14.2
+# Base image
+FROM node:18
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
-CMD ["npm", "install", " -g", "yarn"]
-CMD ["npm", "install", "-g", "@nestjs/cli"]
-CMD ["yarn", "install"]
+# Install app dependencies
+RUN npm install
 
+# Bundle app source
 COPY . .
 
-CMD [ "yarn", "start:dev" ]
+# Creates a "dist" folder with the production build
+RUN npm run build
+
+# Start the server using the production build
+CMD [ "node", "dist/main.js" ]
