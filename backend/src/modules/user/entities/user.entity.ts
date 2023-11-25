@@ -3,10 +3,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn, ManyToMany, JoinTable,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { UserData } from "@/modules/user/entities/user-data.entity";
-import { Space } from "@/modules/spaces/entities/space.entity";
+import { UserData } from '@/modules/user/entities/user-data.entity';
+import { Space } from '@/modules/spaces/entities/space.entity';
 
 @Entity()
 export class User {
@@ -23,7 +25,7 @@ export class User {
   isActive: boolean;
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   refreshToken: string;
 
@@ -31,7 +33,7 @@ export class User {
   @JoinColumn()
   userData: UserData;
 
-  @ManyToMany(() => Space, space => space.users, {cascade: true})
+  @ManyToMany(() => Space, (space) => space.users, { cascade: true })
   @JoinTable()
-  spaces: Space[]
+  spaces: Space[];
 }

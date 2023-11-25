@@ -1,17 +1,19 @@
-import { UserDataDto } from "@/modules/auth/dto/user.data.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { UserDataDto } from '@/modules/auth/dto/user.data.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserCreateDto {
-  @ApiProperty({example: 'changeme'})
+  @ApiProperty({ example: 'changeme' })
   login: string;
 
-  @ApiProperty({example: 'changeme'})
+  @ApiProperty({ example: 'changeme' })
   password: string;
 
-  @ApiProperty({example: {
-    name: 'Name',
+  @ApiProperty({
+    example: {
+      name: 'Name',
       surname: 'Surname',
-      email: 'Email'
-    }})
+      email: 'Email',
+    },
+  })
   data: UserDataDto;
 }

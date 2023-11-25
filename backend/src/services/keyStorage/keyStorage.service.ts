@@ -1,53 +1,44 @@
-import {Injectable} from '@nestjs/common';
-import {KeyStorageConnectorService} from './keyStorage.connector.service';
-import {ConfigService} from "@nestjs/config";
+import { Injectable } from '@nestjs/common';
+import { KeyStorageConnectorService } from './keyStorage.connector.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class KeyStorageService {
-    constructor(
-        private readonly configService: ConfigService
-    ) {
-    }
+  constructor(private readonly configService: ConfigService) {}
 
-    connector = new KeyStorageConnectorService(this.configService)
+  connector = new KeyStorageConnectorService(this.configService);
 
-    public async get(key: string) {
-        const redis
-            = await this.connector.client();
-        return redis.get(key);
-    }
+  public async get(key: string) {
+    const redis = await this.connector.client();
+    return redis.get(key);
+  }
 
-    //expiredAfter in seconds!!!
-    public async set(key: string, value: string, expiredAfter?: number) {
-        const redis
-            = await this.connector.client();
-        await redis.set(key, value);
-        if (expiredAfter) {
-            await redis.expire(key, expiredAfter);
-        }
+  //expiredAfter in seconds!!!
+  public async set(key: string, value: string, expiredAfter?: number) {
+    const redis = await this.connector.client();
+    await redis.set(key, value);
+    if (expiredAfter) {
+      await redis.expire(key, expiredAfter);
     }
+  }
 
-    public async delete(key: string): Promise<void> {
-        const redis
-            = await this.connector.client();
-        await redis.del(key);
-    }
+  public async delete(key: string): Promise<void> {
+    const redis = await this.connector.client();
+    await redis.del(key);
+  }
 
-    public async exists(key: string): Promise<boolean> {
-        const redis
-            = await this.connector.client();
-        return await redis.exists(key) === 1
-    }
+  public async exists(key: string): Promise<boolean> {
+    const redis = await this.connector.client();
+    return (await redis.exists(key)) === 1;
+  }
 
-    async ttl(key: string): Promise<number> {
-        const redis
-            = await this.connector.client();
-        return redis.ttl(key);
-    }
+  async ttl(key: string): Promise<number> {
+    const redis = await this.connector.client();
+    return redis.ttl(key);
+  }
 
-    async expire(key: string, after: number): Promise<boolean> {
-        const redis
-            = await this.connector.client();
-        return redis.expire(key, after);
-    }
+  async expire(key: string, after: number): Promise<boolean> {
+    const redis = await this.connector.client();
+    return redis.expire(key, after);
+  }
 }

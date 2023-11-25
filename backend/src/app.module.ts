@@ -6,9 +6,10 @@ import { UserModule } from '@/modules/user/user.module';
 import configuration from '@/config/configuration';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { CryptoModule } from '@/modules/crypto/crypto.module';
-import { SpacesModule } from "@/modules/spaces/spaces.module";
-import { KeyStorageModule } from "@/services/keyStorage/keyStorage.module";
-import { EventHandlingModule } from "@/services/eventHanling/eventHandling.module";
+import { SpacesModule } from '@/modules/spaces/spaces.module';
+import { KeyStorageModule } from '@/services/keyStorage/keyStorage.module';
+import { EventHandlingModule } from '@/services/eventHanling/eventHandling.module';
+import { CandidateModule } from '@/modules/candidate/candidate.module';
 
 @Module({
   imports: [
@@ -39,8 +40,9 @@ import { EventHandlingModule } from "@/services/eventHanling/eventHandling.modul
     AuthModule,
     CryptoModule,
     SpacesModule,
-      KeyStorageModule,
-      EventHandlingModule
+    KeyStorageModule,
+    EventHandlingModule,
+    CandidateModule,
   ],
   providers: [],
 })

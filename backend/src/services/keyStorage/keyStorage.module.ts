@@ -4,8 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { KeyStorageConnectorService } from './keyStorage.connector.service';
 
 @Module({
-    imports: [ConfigModule],
-    providers: [KeyStorageService, KeyStorageConnectorService],
-    exports: [KeyStorageService],
+  imports: [ConfigModule],
+  providers: [KeyStorageService, KeyStorageConnectorService],
+  exports: [KeyStorageService],
 })
 export class KeyStorageModule {}

@@ -1,4 +1,4 @@
-import * as process from "process";
+import * as process from 'process';
 
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 8080,
@@ -15,11 +15,11 @@ export default () => ({
   secrets: {
     jwt_access: process.env.JWT_ACCESS,
     jwt_refresh: process.env.JWT_REFRESH,
-    space_secret: process.env.SPACES_SECRET
+    space_secret: process.env.SPACES_SECRET,
   },
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD
-  }
+    password: process.env.REDIS_PASSWORD,
+  },
 });

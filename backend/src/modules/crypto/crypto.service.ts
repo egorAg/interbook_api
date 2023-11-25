@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { User } from "@/modules/user/entities/user.entity";
-import { AnyObject } from "@/types/global.types";
+import { User } from '@/modules/user/entities/user.entity';
+import { AnyObject } from '@/types/global.types';
 
 @Injectable()
 export class CryptoService {
@@ -37,11 +37,11 @@ export class CryptoService {
   public async createSpaceToken(payload: AnyObject, expiresIn = '24h') {
     return this.jwtService.signAsync(payload, {
       expiresIn,
-      secret: this.configService.get<string>('secrets.space_secret')
-    })
+      secret: this.configService.get<string>('secrets.space_secret'),
+    });
   }
 
   public async decodeSpaceToken(token: string) {
-    return this.jwtService.decode(token)
+    return this.jwtService.decode(token);
   }
 }

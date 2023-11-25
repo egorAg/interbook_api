@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserData } from "@/modules/user/entities/user-data.entity";
-import { User } from "@/modules/user/entities/user.entity";
-import { UserCreateDto } from "@/modules/auth/dto/user.create.dto";
-import { Space } from "@/modules/spaces/entities/space.entity";
+import { UserData } from '@/modules/user/entities/user-data.entity';
+import { User } from '@/modules/user/entities/user.entity';
+import { UserCreateDto } from '@/modules/auth/dto/user.create.dto';
+import { Space } from '@/modules/spaces/entities/space.entity';
+import { UserDataDto } from '@/modules/auth/dto/user.data.dto';
 
 @Injectable()
 export class UserService {
@@ -53,12 +54,12 @@ export class UserService {
 
   public async getUser(id: number, selectPass = true) {
     const candidate = await this.userRepo
-        .createQueryBuilder('user')
-        .select(['user.id', 'user.login', 'user.password', 'user.refreshToken'])
-        .leftJoinAndSelect('user.userData', 'userData')
-        .leftJoinAndSelect('user.spaces', 'spaces')
-        .where('user.id = :id', { id })
-        .getOne();
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.login', 'user.password', 'user.refreshToken'])
+      .leftJoinAndSelect('user.userData', 'userData')
+      .leftJoinAndSelect('user.spaces', 'spaces')
+      .where('user.id = :id', { id })
+      .getOne();
 
     if (!candidate) {
       throw new HttpException(
@@ -67,8 +68,8 @@ export class UserService {
       );
     }
 
-    if ( !selectPass ) {
-      delete candidate['password']
+    if (!selectPass) {
+      delete candidate['password'];
     }
 
     return candidate;
@@ -76,12 +77,12 @@ export class UserService {
 
   public async getUserByLogin(login: string) {
     const candidate = await this.userRepo
-        .createQueryBuilder('user')
-        .select(['user.id', 'user.login', 'user.password'])
-        .leftJoinAndSelect('user.userData', 'userData')
-        .leftJoinAndSelect('user.spaces', 'spaces')
-        .where('user.login = :login', { login })
-        .getOne();
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.login', 'user.password'])
+      .leftJoinAndSelect('user.userData', 'userData')
+      .leftJoinAndSelect('user.spaces', 'spaces')
+      .where('user.login = :login', { login })
+      .getOne();
 
     if (!candidate) {
       throw new HttpException(
@@ -94,8 +95,8 @@ export class UserService {
   }
 
   public async addSpace(user: User, space: Space) {
-    if ( !user.spaces ) {
-      user.spaces = [space]
+    if (!user.spaces) {
+      user.spaces = [space];
     } else {
       user.spaces = [...user.spaces, space];
     }
@@ -103,10 +104,18 @@ export class UserService {
     await this.userRepo.save(user);
   }
 
-  async setRefreshToken ( user: User, refreshToken: string ) {
+  public async setRefreshToken(user: User, refreshToken: string) {
     await this.userRepo.save({
       ...user,
-      refreshToken
-    })
+      refreshToken,
+    });
+  }
+
+  public async createAdditional(data: UserDataDto) {
+    const entity = this.userDataRepo.create(data);
+
+    await this.userDataRepo.save(entity);
+
+    return entity;
   }
 }
