@@ -1,11 +1,10 @@
-FROM node:16
+FROM node:latest
 
-WORKDIR /usr/src/app
+ONBUILD RUN mkdir /usr/src/backend
+WORKDIR /usr/src/backend
 
-COPY package.json ./
+COPY package.json /usr/src/backend
+RUN yarn install
+COPY . /usr/src/backend
 
-COPY . .
-
-RUN npm install
-
-RUN npm run start:dev
+CMD ["yarn", "start:dev"]
