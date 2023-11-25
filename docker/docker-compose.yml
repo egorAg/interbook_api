@@ -1,5 +1,7 @@
 version: "3.9"
 
+name: "interbook_api"
+
 services:
   postgres:
     container_name: postgres
