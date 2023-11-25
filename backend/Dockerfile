@@ -6,10 +6,8 @@ COPY package*.json ./
 
 CMD ["npm", "install", " -g", "yarn"]
 
-RUN npm install
+CMD ["yarn"]
 
 COPY . .
 
-RUN npm run build
-
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "yarn", "start:dev" ]
