@@ -7,16 +7,17 @@ import { UserModel } from '../models/user.model';
 @Injectable()
 export class UserRepository {
   constructor(
-    @InjectRepository(UserModel) private readonly repo: Repository<UserModel>,
+    @InjectRepository(UserModel)
+    private readonly dataSource: Repository<UserModel>,
   ) {}
 
   public async findOne(findOptions: FindOneOptions<UserModel>): Promise<User> {
-    return this.repo.findOne(findOptions);
+    return this.dataSource.findOne(findOptions);
   }
 
   public async create(data: Partial<User>): Promise<User> {
-    const user = this.repo.create(data);
-    await this.repo.save(user);
+    const user = this.dataSource.create(data);
+    await this.dataSource.save(user);
     return user;
   }
 
@@ -27,6 +28,6 @@ export class UserRepository {
       },
     });
 
-    await this.repo.save(Object.assign(userToUpdate, data));
+    await this.dataSource.save(Object.assign(userToUpdate, data));
   }
 }

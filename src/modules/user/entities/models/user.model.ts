@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { QuestionModel } from 'src/modules/questions/entities/models/question.model';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserModel {
@@ -23,4 +24,7 @@ export class UserModel {
     name: 'refresh_token',
   })
   refreshToken: string;
+
+  @OneToMany(() => QuestionModel, (question) => question.creator)
+  questions: QuestionModel[];
 }

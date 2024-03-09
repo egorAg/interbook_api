@@ -12,7 +12,7 @@ export class UserAuthorizeDto {
 
   @ApiProperty({
     type: 'string',
-    example: 'qweQWE123!',
+    example: 'МойМармеладныйЯНеТвоя123!',
   })
   @IsNotEmpty()
   @IsString()
