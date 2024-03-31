@@ -13,6 +13,7 @@ export class QuestionsService {
     private readonly userService: UserService,
     private readonly tagService: TagsService,
   ) {}
+
   public async getAllByFilter(payload: QuestionFilterDto) {
     return this.questionRepo.findQuestions(payload);
   }
@@ -20,6 +21,20 @@ export class QuestionsService {
   public async getAllByUserId(userId: number) {
     const user = await this.userService.findUser({ id: userId });
     return this.questionRepo.getAllByUser(user);
+  }
+
+  public async getAll(
+    name: string,
+    tags: number[],
+    page: number,
+    pageSize: number,
+  ) {
+    return this.questionRepo.findQuestions({
+      name: name,
+      tagIds: tags,
+      page: page,
+      pageSize: pageSize,
+    });
   }
 
   public async createNew(payload: CreateQuestionDto, userId: number) {
@@ -48,5 +63,9 @@ export class QuestionsService {
       payload.name,
       tags.length > 0 ? tags : undefined,
     );
+  }
+
+  public async softDelete(id: number) {
+    await this.questionRepo.softDelete(id);
   }
 }

@@ -37,6 +37,7 @@ export class TagRepository {
     }
 
     const tag = this.dataSource.create();
+    tag.name = data.name;
     await this.dataSource.save(tag);
     return tag;
   }

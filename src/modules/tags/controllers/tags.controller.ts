@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/decorators/auth.decorator';
 import { TagCreateDto } from '../dto/tag.create.dto';
 import { TagsService } from '../services/tags.service';
@@ -53,5 +53,20 @@ export class TagsController {
     @Query('pageSize') pageSize: number,
   ) {
     return this.service.getAllByName(name, page, pageSize);
+  }
+
+  @ApiOperation({
+    summary: 'Get tag by id',
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    example: 1,
+    required: true,
+  })
+  @Auth
+  @Get('/:id')
+  public async getById(@Param('id') id: number) {
+    return this.service.getById(id);
   }
 }

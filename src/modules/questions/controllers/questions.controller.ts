@@ -1,5 +1,23 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Auth } from 'src/decorators/auth.decorator';
 import { UserId } from 'src/decorators/userid.decorator';
 import { QuestionResponse } from 'src/responses/questios/question.response';
@@ -30,7 +48,7 @@ export class QuestionsController {
   }
 
   @Auth
-  @Get()
+  @Get('/my-questions')
   @ApiOperation({ summary: 'Get all current user questions' })
   @ApiResponse({
     status: 200,
@@ -66,5 +84,41 @@ export class QuestionsController {
     @Body() updateQuestionDto: UpdateQuestionDto,
   ): Promise<any> {
     return this.service.updateQuestion(updateQuestionDto);
+  }
+
+  @Auth
+  @Get()
+  @ApiOperation({
+    summary: 'Get all existing questions',
+  })
+  @ApiQuery({ name: 'name', type: 'string', example: 'React', required: false })
+  @ApiQuery({
+    name: 'tags',
+    type: 'string',
+    example: [1, 2, 3],
+    required: false,
+  })
+  @ApiQuery({ name: 'page', type: 'number', example: 2, required: false })
+  @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
+  async getAllQuestions(
+    //name (для фильтрации/поиска по тексту вопроса), tags, page и pageSize для пагинации
+    @Query('name') name: string,
+    @Query('tags') tags: number[],
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+  ) {
+    return this.service.getAll(name, tags, page, pageSize);
+  }
+
+  @Auth
+  @Delete('/:id')
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    example: 1,
+  })
+  @HttpCode(HttpStatus.OK)
+  async softDelete(@Param('id') id: number) {
+    await this.service.softDelete(id);
   }
 }

@@ -10,6 +10,7 @@ import { QuestionModel } from '../models/question.model';
 @Injectable()
 export class QuestionRepository {
   private logger: Logger = new Logger(QuestionRepository.name);
+
   constructor(
     @InjectRepository(QuestionModel)
     private readonly dataSource: Repository<QuestionModel>,
@@ -18,7 +19,15 @@ export class QuestionRepository {
   public async findQuestions(
     searchDto: QuestionFilterDto,
   ): Promise<Question[]> {
+    let { page, pageSize } = searchDto;
     const whereCondition: FindOptionsWhere<QuestionModel> = {};
+
+    if (!page) {
+      page = 1;
+    }
+    if (!pageSize) {
+      pageSize = 20;
+    }
 
     if (searchDto.name) {
       whereCondition.name = ILike(`%${searchDto.name}%`);
@@ -28,16 +37,14 @@ export class QuestionRepository {
       whereCondition.tags = searchDto.tagIds.map((tagId) => ({ id: tagId }));
     }
 
-    const questions = await this.dataSource.find({
+    return await this.dataSource.find({
       where: whereCondition,
-      skip: (searchDto.page - 1) * searchDto.pageSize,
-      take: searchDto.pageSize,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
       relations: {
         tags: true,
       },
     });
-
-    return questions;
   }
 
   public async createQuestion(
@@ -101,5 +108,9 @@ export class QuestionRepository {
         creator: user,
       },
     });
+  }
+
+  public async softDelete(id: number) {
+    await this.dataSource.softRemove({ id: id });
   }
 }
