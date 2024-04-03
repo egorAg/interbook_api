@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseArrayPipe,
   Patch,
   Post,
   Query,
@@ -95,15 +96,15 @@ export class QuestionsController {
   @ApiQuery({
     name: 'tags',
     type: 'string',
-    example: [1, 2, 3],
+    example: '1,2,3',
     required: false,
   })
   @ApiQuery({ name: 'page', type: 'number', example: 2, required: false })
   @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
   async getAllQuestions(
-    //name (для фильтрации/поиска по тексту вопроса), tags, page и pageSize для пагинации
     @Query('name') name: string,
-    @Query('tags') tags: number[],
+    @Query('tags', new ParseArrayPipe({ items: Number, separator: ',' }))
+    tags: number[],
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
   ) {
