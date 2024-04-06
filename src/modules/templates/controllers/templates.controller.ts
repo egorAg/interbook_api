@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { UserId } from '../../../decorators/userid.decorator';
 import { TemplateCreateDto } from '../dto/template.create.dto';
 import { QuestionCreateDto } from '../dto/question.create.dto';
 import { TemplateCreateResponse } from '../../../responses/templates/template.create.response';
+import { OrderDto } from '../dto/order.dto';
 
 @Auth
 @ApiTags('Templates')
@@ -149,5 +151,17 @@ export class TemplatesController {
   @Delete('question/:id')
   public deleteQuestion(@Param('id') id: string) {
     return this.service.removeQuestion(id);
+  }
+
+  @ApiOperation({
+    summary: 'Update template order',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @Patch()
+  public updateOrder(@Body() dto: OrderDto, @UserId() id: number) {
+    return this.service.order(id, dto.templateId, dto.order);
   }
 }

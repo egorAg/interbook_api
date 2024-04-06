@@ -129,4 +129,8 @@ export class TemplateRepository {
       take: pageSize,
     });
   }
+
+  public async updateOrder(id: string, order: string[]) {
+    await this.templateRepo.update({ id: id }, { order: order });
+  }
 }

@@ -62,4 +62,12 @@ export class TemplatesService {
       userId,
     );
   }
+
+  public async order(userId: number, templateId: string, order: string[]) {
+    const template = await this.templateRepo.getById(templateId, true);
+    if (template.user.id !== userId) {
+      throw new BadRequestException('Your not an owner');
+    }
+    return this.templateRepo.updateOrder(templateId, order);
+  }
 }
