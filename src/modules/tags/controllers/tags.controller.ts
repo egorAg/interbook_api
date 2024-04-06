@@ -67,6 +67,6 @@ export class TagsController {
   @Auth
   @Get('/:id')
   public async getById(@Param('id') id: number) {
-    return this.service.getById(id);
+    return this.service.getById(id).then((res) => res[0]);
   }
 }

@@ -14,6 +14,6 @@ export class TagsService {
   }
 
   public async getById(id: number[] | number) {
-    return this.repo.getById(id).then((res) => res[0]);
+    return this.repo.getById(id);
   }
 }
