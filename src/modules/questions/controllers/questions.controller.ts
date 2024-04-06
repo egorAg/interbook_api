@@ -103,10 +103,13 @@ export class QuestionsController {
   @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
   async getAllQuestions(
     @Query('name') name: string,
-    @Query('tags', new ParseArrayPipe({ items: Number, separator: ',' }))
-    tags: number[],
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
+    @Query(
+      'tags',
+      new ParseArrayPipe({ items: Number, separator: ',', optional: true }),
+    )
+    tags?: number[],
   ) {
     return this.service.getAll(name, tags, page, pageSize);
   }

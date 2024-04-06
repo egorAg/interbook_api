@@ -31,7 +31,7 @@ export class QuestionsService {
   ) {
     return this.questionRepo.findQuestions({
       name: name,
-      tagIds: tags,
+      tagIds: tags?.length ? tags : null,
       page: page,
       pageSize: pageSize,
     });
