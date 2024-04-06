@@ -1,6 +1,7 @@
 import { QuestionModel } from 'src/modules/questions/entities/models/question.model';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { TemplateEntity } from '../../../templates/entities/models/template.entity';
+import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
 
 @Entity('users')
 export class UserModel {
@@ -31,4 +32,7 @@ export class UserModel {
 
   @OneToMany(() => TemplateEntity, (model) => model.user)
   templates: TemplateEntity[];
+
+  @OneToMany(() => CandidateModel, (model) => model.createdBy)
+  candidates: CandidateModel[];
 }

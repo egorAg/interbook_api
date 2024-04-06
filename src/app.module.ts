@@ -11,6 +11,8 @@ import { UserModule } from './modules/user/user.module';
 import { TemplatesModule } from './modules/templates/templates.module';
 import { TemplateEntity } from './modules/templates/entities/models/template.entity';
 import { TemplateQuestionModel } from './modules/templates/entities/models/template-question.entity';
+import { CandidatesModule } from './modules/candidates/candidates.module';
+import { CandidateModel } from './modules/candidates/entities/models/candidate.model';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { TemplateQuestionModel } from './modules/templates/entities/models/templ
           QuestionModel,
           TemplateEntity,
           TemplateQuestionModel,
+          CandidateModel,
         ],
         host: config.getOrThrow('DB_HOST'),
         port: config.getOrThrow('DB_PORT'),
@@ -43,6 +46,7 @@ import { TemplateQuestionModel } from './modules/templates/entities/models/templ
     QuestionsModule,
     TagsModule,
     TemplatesModule,
+    CandidatesModule,
   ],
 })
 export class AppModule {}
