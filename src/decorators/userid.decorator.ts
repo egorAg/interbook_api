@@ -14,7 +14,7 @@ export const UserId = createParamDecorator(
       process.env.JWT_SECRET,
     ) as undefined as Payload;
 
-    return payload.data.id;
+    return +payload.data.id;
   },
 );
 

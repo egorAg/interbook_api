@@ -8,6 +8,9 @@ import { TagModel } from './modules/tags/entities/models/tag.entity';
 import { TagsModule } from './modules/tags/tags.module';
 import { UserModel } from './modules/user/entities/models/user.model';
 import { UserModule } from './modules/user/user.module';
+import { TemplatesModule } from './modules/templates/templates.module';
+import { TemplateEntity } from './modules/templates/entities/models/template.entity';
+import { TemplateQuestionModel } from './modules/templates/entities/models/template-question.entity';
 
 @Module({
   imports: [
@@ -18,13 +21,19 @@ import { UserModule } from './modules/user/user.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        entities: [UserModel, TagModel, QuestionModel],
+        entities: [
+          UserModel,
+          TagModel,
+          QuestionModel,
+          TemplateEntity,
+          TemplateQuestionModel,
+        ],
         host: config.getOrThrow('DB_HOST'),
         port: config.getOrThrow('DB_PORT'),
         username: config.getOrThrow('DB_USER'),
         password: config.getOrThrow('DB_PASS'),
         database: config.getOrThrow('DB_NAME'),
-        synchronize: config.get<string>('NODE_ENV') === 'DEV' ? true : false,
+        synchronize: config.get<string>('NODE_ENV') === 'DEV',
         migrations: ['build/task/migrations/*.js'],
         migrationsTableName: 'migrations',
       }),
@@ -33,6 +42,7 @@ import { UserModule } from './modules/user/user.module';
     AuthModule,
     QuestionsModule,
     TagsModule,
+    TemplatesModule,
   ],
 })
 export class AppModule {}

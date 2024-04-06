@@ -6,8 +6,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { TemplateQuestionModel } from '../../../templates/entities/models/template-question.entity';
 
 @Entity('questions')
 export class QuestionModel {
@@ -28,4 +30,8 @@ export class QuestionModel {
   })
   @JoinTable()
   tags: TagModel[];
+
+  @OneToMany(() => TemplateQuestionModel, (model) => model.question)
+  @JoinTable()
+  templateQuestion: TemplateQuestionModel[];
 }

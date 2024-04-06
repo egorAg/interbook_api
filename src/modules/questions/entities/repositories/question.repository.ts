@@ -111,6 +111,6 @@ export class QuestionRepository {
   }
 
   public async softDelete(id: number) {
-    await this.dataSource.softRemove({ id: id });
+    await this.dataSource.delete({ id: id });
   }
 }
