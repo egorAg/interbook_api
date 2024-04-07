@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CandidateGradeEnum } from '../../types/candidate.grade.enum';
 import { UserModel } from '../../../user/entities/models/user.model';
+import { InterviewModel } from '../../../interview/entities/models/interview.model';
 
 @Entity()
 export class CandidateModel {
@@ -34,6 +36,9 @@ export class CandidateModel {
 
   @ManyToOne(() => UserModel, (user) => user.candidates)
   createdBy?: UserModel;
+
+  @OneToMany(() => InterviewModel, (model) => model.candidate)
+  interviews: InterviewModel[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt?: Date;

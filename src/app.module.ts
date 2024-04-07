@@ -13,6 +13,9 @@ import { TemplateEntity } from './modules/templates/entities/models/template.ent
 import { TemplateQuestionModel } from './modules/templates/entities/models/template-question.entity';
 import { CandidatesModule } from './modules/candidates/candidates.module';
 import { CandidateModel } from './modules/candidates/entities/models/candidate.model';
+import { InterviewModel } from './modules/interview/entities/models/interview.model';
+import { InterviewResultModel } from './modules/interview/entities/models/interview.result.model';
+import { InterviewModule } from './modules/interview/interview.module';
 
 @Module({
   imports: [
@@ -30,6 +33,8 @@ import { CandidateModel } from './modules/candidates/entities/models/candidate.m
           TemplateEntity,
           TemplateQuestionModel,
           CandidateModel,
+          InterviewModel,
+          InterviewResultModel,
         ],
         host: config.getOrThrow('DB_HOST'),
         port: config.getOrThrow('DB_PORT'),
@@ -47,6 +52,7 @@ import { CandidateModel } from './modules/candidates/entities/models/candidate.m
     TagsModule,
     TemplatesModule,
     CandidatesModule,
+    InterviewModule,
   ],
 })
 export class AppModule {}

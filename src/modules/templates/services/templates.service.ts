@@ -18,11 +18,15 @@ export class TemplatesService {
       throw new BadRequestException('This is not your template');
     }
 
-    return this.templateRepo.createQuestion(
+    const question = await this.templateRepo.createQuestion(
       dto.questionId,
       dto.templateId,
       dto.note,
     );
+
+    await this.order(userId, template.id, [...template.order, question]);
+
+    return question;
   }
 
   public async getTemplateWithQuestions(id: string) {

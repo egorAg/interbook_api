@@ -1,6 +1,7 @@
 import { CandidateGradeEnum } from '../../types/candidate.grade.enum';
-import { User } from '../../../user/types/user.type';
 import { ApiProperty } from '@nestjs/swagger';
+import { Interview } from '../../../interview/domain/types/interview';
+import { UserModel } from '../../../user/entities/models/user.model';
 
 export class Candidate {
   @ApiProperty({
@@ -38,7 +39,12 @@ export class Candidate {
   })
   experience?: string;
 
-  createdBy?: User;
+  @ApiProperty({
+    example: [],
+  })
+  interviews: Interview[];
+
+  createdBy?: UserModel;
 
   @ApiProperty({
     example: new Date(),

@@ -10,12 +10,22 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TemplateQuestionModel } from '../../../templates/entities/models/template-question.entity';
+import { InterviewResultModel } from '../../../interview/entities/models/interview.result.model';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('questions')
 export class QuestionModel {
+  @ApiProperty({
+    type: 'string',
+    example: 'some-uuid-v4-here',
+  })
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({
+    type: 'string',
+    example: 'some name',
+  })
   @Column({
     type: 'varchar',
     nullable: false,
@@ -34,4 +44,8 @@ export class QuestionModel {
   @OneToMany(() => TemplateQuestionModel, (model) => model.question)
   @JoinTable()
   templateQuestion: TemplateQuestionModel[];
+
+  @OneToMany(() => InterviewResultModel, (model) => model.question)
+  @JoinTable()
+  results: InterviewResultModel[];
 }

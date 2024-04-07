@@ -1,5 +1,6 @@
 import { CandidateModel } from '../../entities/models/candidate.model';
 import { Candidate } from '../types/candidate';
+import { InterviewMapper } from '../../../interview/domain/mappers/interview.mapper';
 
 export class CandidateMapper {
   static toDomain(raw: CandidateModel): Candidate {
@@ -14,6 +15,10 @@ export class CandidateMapper {
     if (raw.createdBy) res.createdBy = raw.createdBy;
     if (raw.createdAt) res.createdAt = raw.createdAt;
     if (raw.updatedAt) res.updatedAt = raw.updatedAt;
+    if (raw.interviews)
+      res.interviews = raw.interviews.map((val) =>
+        InterviewMapper.toDomain(val),
+      );
 
     return res;
   }
@@ -31,6 +36,10 @@ export class CandidateMapper {
     if (raw.createdBy) res.createdBy = raw.createdBy;
     if (raw.createdAt) res.createdAt = raw.createdAt;
     if (raw.updatedAt) res.updatedAt = raw.updatedAt;
+    if (raw.interviews)
+      res.interviews = raw.interviews.map((val) =>
+        InterviewMapper.toPersistence(val),
+      );
 
     return res;
   }

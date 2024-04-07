@@ -18,6 +18,7 @@ export class UpdateUsecase
         grade: dto.grade,
         salary: dto.salary,
         experience: dto.experience,
+        interviews: [],
       }),
     );
 

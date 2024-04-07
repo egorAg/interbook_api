@@ -7,14 +7,16 @@ export const UserId = createParamDecorator(
 
     const authHeader = req.headers['authorization'];
 
-    const token = authHeader.split(' ')[1];
+    if (authHeader) {
+      const token = authHeader.split(' ')[1];
 
-    const payload: Payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET,
-    ) as undefined as Payload;
+      const payload: Payload = jwt.verify(
+        token,
+        process.env.JWT_SECRET,
+      ) as undefined as Payload;
 
-    return +payload.data.id;
+      return +payload.data.id;
+    } else return undefined;
   },
 );
 

@@ -24,6 +24,7 @@ export class CandidateRepository {
     candidate.createdBy = {
       id: creatorId,
     } as UserModel;
+    candidate.interviews = [];
 
     await this.dataSource.save(candidate);
 
@@ -53,6 +54,7 @@ export class CandidateRepository {
   }
 
   public async update(data: Partial<CandidateModel>) {
+    delete data.interviews;
     await this.dataSource.update({ id: data.id }, data);
   }
 }
