@@ -90,7 +90,16 @@ export class TemplateRepository {
   }
 
   public async removeQuestion(id: string) {
-    await this.templateQuestionRepo.softDelete({ id: id });
+    const template = await this.templateRepo.findOne({
+      where: {
+        questions: {
+          id: id,
+        },
+      },
+    });
+    const newOrder = template.order.filter((item) => item !== id);
+    await this.updateOrder(template.id, newOrder);
+    await this.templateQuestionRepo.delete({ id: id });
   }
 
   public async removeTemplate(id: string) {

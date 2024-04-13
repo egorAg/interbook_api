@@ -37,7 +37,9 @@ export class CandidateModel {
   @ManyToOne(() => UserModel, (user) => user.candidates)
   createdBy?: UserModel;
 
-  @OneToMany(() => InterviewModel, (model) => model.candidate)
+  @OneToMany(() => InterviewModel, (model) => model.candidate, {
+    cascade: true,
+  })
   interviews: InterviewModel[];
 
   @CreateDateColumn({ name: 'created_at' })

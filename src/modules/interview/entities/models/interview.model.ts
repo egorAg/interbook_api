@@ -36,6 +36,8 @@ export class InterviewModel {
   @OneToMany(() => InterviewResultModel, (model) => model.interview)
   result: InterviewResultModel[];
 
-  @ManyToOne(() => CandidateModel, (model) => model.interviews)
+  @ManyToOne(() => CandidateModel, (model) => model.interviews, {
+    onDelete: 'SET NULL',
+  })
   candidate: CandidateModel;
 }

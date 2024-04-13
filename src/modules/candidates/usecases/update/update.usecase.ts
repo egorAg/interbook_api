@@ -3,7 +3,9 @@ import { UpdateCandidateDto } from '../../dto/update.candidate.dto';
 import { Candidate } from '../../domain/types/candidate';
 import { CandidateRepository } from '../../entities/repositories/candidate.repository';
 import { CandidateMapper } from '../../domain/mappers/candidate.mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UpdateUsecase
   implements IUsecase<{ dto: UpdateCandidateDto }, Promise<Candidate>>
 {

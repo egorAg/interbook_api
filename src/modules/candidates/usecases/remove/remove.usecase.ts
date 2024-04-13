@@ -1,6 +1,8 @@
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
 import { CandidateRepository } from '../../entities/repositories/candidate.repository';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class RemoveUsecase implements IUsecase<{ id: number }, Promise<void>> {
   constructor(private readonly repo: CandidateRepository) {}
   async execute({ id }: { id: number }): Promise<void> {
