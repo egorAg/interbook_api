@@ -2,8 +2,14 @@ import { InterviewResultRepository } from '../../entities/repositories/interview
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
 import { QuestionResultCreateDto } from '../../dto/question.result.create.dto';
 import { InterviewResult } from '../../domain/types/interview.result';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InterviewRepository } from '../../entities/repositories/interview.repository';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
 
 @Injectable()
 export class UpdateQuestionUsecase
@@ -14,7 +20,7 @@ export class UpdateQuestionUsecase
     >
 {
   constructor(
-    private readonly репозиторий: InterviewResultRepository,
+    private readonly interviewResultRepository: InterviewResultRepository,
     private readonly interviewRepo: InterviewRepository,
   ) {}
 
@@ -29,9 +35,15 @@ export class UpdateQuestionUsecase
       dto.interviewId,
       true,
     );
+    if (interview.status !== InterviewStatusEnum.IN_PROGRESS) {
+      throw new HttpException(
+        'Добавление ответа на вопрос доступно только когда статус интервью - "В процессе"',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     if (interview.user.id !== requestUserId) {
       throw new ForbiddenException('No access');
     }
-    return this.репозиторий.create(dto);
+    return this.interviewResultRepository.create(dto);
   }
 }

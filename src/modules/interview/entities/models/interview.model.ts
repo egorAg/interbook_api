@@ -9,6 +9,7 @@ import { TemplateEntity } from '../../../templates/entities/models/template.enti
 import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
 import { InterviewResultModel } from './interview.result.model';
 import { UserModel } from '../../../user/entities/models/user.model';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
 
 @Entity('interview')
 export class InterviewModel {
@@ -26,6 +27,13 @@ export class InterviewModel {
     default: 'NOW()',
   })
   date: Date;
+
+  @Column({
+    type: 'enum',
+    enum: InterviewStatusEnum,
+    default: InterviewStatusEnum.PLANNED,
+  })
+  status: InterviewStatusEnum;
 
   @ManyToOne(() => TemplateEntity, (model) => model.interviews)
   template: TemplateEntity;

@@ -32,6 +32,27 @@ export class QuestionModel {
   })
   name: string;
 
+  @ApiProperty({
+    type: 'boolean',
+    nullable: false,
+  })
+  @Column({
+    type: 'boolean',
+    nullable: false,
+    default: false,
+  })
+  isPublic: boolean;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'some name',
+  })
+  @Column({
+    type: 'text',
+    nullable: false,
+  })
+  hint: string;
+
   @ManyToOne(() => UserModel, (user) => user.questions)
   creator: UserModel;
 

@@ -37,6 +37,13 @@ export class QuestionRepository {
       whereCondition.tags = searchDto.tagIds.map((tagId) => ({ id: tagId }));
     }
 
+    if (!searchDto.isPublic) {
+      whereCondition.isPublic = false;
+      whereCondition.creator = {
+        id: searchDto.userId,
+      };
+    }
+
     return await this.dataSource.find({
       where: whereCondition,
       skip: (page - 1) * pageSize,
@@ -112,5 +119,9 @@ export class QuestionRepository {
 
   public async softDelete(id: number) {
     await this.dataSource.delete({ id: id });
+  }
+
+  public async getById(id: number) {
+    return this.dataSource.findOne({ where: { id } });
   }
 }

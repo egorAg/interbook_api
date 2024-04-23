@@ -11,7 +11,6 @@ import { TemplateQuestionModel } from './template-question.entity';
 import { UserModel } from '../../../user/entities/models/user.model';
 import { InterviewModel } from '../../../interview/entities/models/interview.model';
 import { ApiProperty } from '@nestjs/swagger';
-import { QuestionModel } from '../../../questions/entities/models/question.model';
 
 @Entity('templates')
 export class TemplateEntity {

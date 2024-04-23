@@ -6,6 +6,7 @@ import { TemplateEntity } from '../../../templates/entities/models/template.enti
 import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
 import { UserModel } from '../../../user/entities/models/user.model';
 import { InterviewMapper } from '../../domain/mappers/interview.mapper';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
 
 @Injectable()
 export class InterviewRepository {
@@ -103,5 +104,30 @@ export class InterviewRepository {
       },
       { isResultPublished: visibility },
     );
+  }
+
+  public async updateStatus(id: string, status: InterviewStatusEnum) {
+    await this.repo.update({ id: id }, { status: status });
+  }
+
+  public async getInterviewByQuestionId(questionId: string) {
+    const result = await this.repo.findOne({
+      where: {
+        result: {
+          id: questionId,
+        },
+      },
+      select: {
+        user: {
+          id: true,
+        },
+      },
+      relations: {
+        user: true,
+      },
+    });
+    if (result) {
+      return InterviewMapper.toDomain(result);
+    }
   }
 }

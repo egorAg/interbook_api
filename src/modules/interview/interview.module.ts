@@ -5,7 +5,9 @@ import {
   CreateModule,
   GetDataByIdModule,
   HistoryModule,
+  UpdateInterviewStatusModule,
   UpdateQuestionModule,
+  UpdateQuestionResultModule,
 } from './usecases';
 
 @Module({
@@ -16,6 +18,8 @@ import {
     GetDataByIdModule,
     HistoryModule,
     UpdateQuestionModule,
+    UpdateInterviewStatusModule,
+    UpdateQuestionResultModule,
   ],
 })
 export class InterviewModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { TagsService } from 'src/modules/tags/services/tags.service';
 import { UserService } from 'src/modules/user/services/user.service';
 import { CreateQuestionDto } from '../dto/question.create.dto';
@@ -26,12 +26,16 @@ export class QuestionsService {
   public async getAll(
     name: string,
     tags: number[],
+    isPublic: boolean,
+    userId: number,
     page: number,
     pageSize: number,
   ) {
     return this.questionRepo.findQuestions({
       name: name,
       tagIds: tags?.length ? tags : null,
+      isPublic,
+      userId,
       page: page,
       pageSize: pageSize,
     });
@@ -56,7 +60,14 @@ export class QuestionsService {
     }
   }
 
-  public async updateQuestion(payload: UpdateQuestionDto) {
+  public async updateQuestion(payload: UpdateQuestionDto, userId: number) {
+    const currentQuestion = await this.questionRepo.getById(payload.id);
+    if (currentQuestion.creator.id !== userId) {
+      throw new HttpException(
+        'Вопрос может редактировать только создатель',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+    }
     const tags = await this.tagService.getById(payload.tagIds);
     await this.questionRepo.updateQuestion(
       payload.id,

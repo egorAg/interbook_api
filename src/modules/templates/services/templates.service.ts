@@ -74,4 +74,20 @@ export class TemplatesService {
     }
     return this.templateRepo.updateOrder(templateId, order);
   }
+
+  public async updateName(userId: number, name: string, id: string) {
+    const currentTemplate = await this.templateRepo.getById(id, true);
+    if (currentTemplate.user.id !== userId) {
+      throw new BadRequestException('Your not an owner');
+    }
+    await this.templateRepo.updateName(id, name);
+  }
+
+  public async updateIsPublic(userId: number, isPublic: boolean, id: string) {
+    const currentTemplate = await this.templateRepo.getById(id, true);
+    if (currentTemplate.user.id !== userId) {
+      throw new BadRequestException('Your not an owner');
+    }
+    await this.templateRepo.updateIsPublic(id, isPublic);
+  }
 }

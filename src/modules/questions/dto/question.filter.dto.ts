@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayNotEmpty,
   IsArray,
+  IsBoolean,
   IsInt,
   IsOptional,
   IsString,
@@ -29,6 +30,17 @@ export class QuestionFilterDto {
   @ArrayNotEmpty()
   @IsInt({ each: true })
   tagIds?: number[];
+
+  @ApiProperty({
+    required: true,
+    type: Boolean,
+    description: 'Show only public or private questions (for current user)',
+    example: true,
+  })
+  @IsBoolean()
+  isPublic: boolean;
+
+  userId: number;
 
   @ApiProperty({
     required: true,

@@ -83,8 +83,9 @@ export class QuestionsController {
   @ApiBody({ type: UpdateQuestionDto })
   async updateQuestion(
     @Body() updateQuestionDto: UpdateQuestionDto,
+    @UserId() userId: number,
   ): Promise<any> {
-    return this.service.updateQuestion(updateQuestionDto);
+    return this.service.updateQuestion(updateQuestionDto, userId);
   }
 
   @Auth
@@ -101,17 +102,20 @@ export class QuestionsController {
   })
   @ApiQuery({ name: 'page', type: 'number', example: 2, required: false })
   @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
+  @ApiQuery({ name: 'isPublic', type: 'boolean', example: false })
   async getAllQuestions(
     @Query('name') name: string,
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
+    @Query('isPublic') isPublic: boolean,
+    @UserId() userId: number,
     @Query(
       'tags',
       new ParseArrayPipe({ items: Number, separator: ',', optional: true }),
     )
     tags?: number[],
   ) {
-    return this.service.getAll(name, tags, page, pageSize);
+    return this.service.getAll(name, tags, isPublic, userId, page, pageSize);
   }
 
   @Auth

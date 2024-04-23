@@ -4,6 +4,7 @@ import { Candidate } from '../../../candidates/domain/types/candidate';
 import { User } from '../../../user/types/user.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserModel } from '../../../user/entities/models/user.model';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
 
 export class Interview {
   @ApiProperty({
@@ -16,6 +17,17 @@ export class Interview {
     example: false,
   })
   isResultPublished: boolean;
+
+  @ApiProperty({
+    type: 'string',
+    example: InterviewStatusEnum.IN_PROGRESS,
+    enum: [
+      InterviewStatusEnum.PLANNED,
+      InterviewStatusEnum.IN_PROGRESS,
+      InterviewStatusEnum.FINISHED,
+    ],
+  })
+  status: InterviewStatusEnum;
 
   @ApiProperty({
     type: TemplateEntity,

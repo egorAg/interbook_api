@@ -14,6 +14,7 @@ export class InterviewMapper {
     if (res?.result?.length)
       res.result = raw.result.map((val) => InterviewResultMapper.toDomain(val));
     if (raw.date) res.date = raw.date;
+    if (raw.status) res.status = raw.status;
     if (raw.user)
       res.user = {
         id: raw.user.id,
@@ -27,6 +28,7 @@ export class InterviewMapper {
     res.id = raw.id;
     res.isResultPublished = raw.isResultPublished;
     res.template = raw.template;
+    res.status = raw.status;
     res.candidate = CandidateMapper.toPersistence(raw.candidate);
     res.result = raw.result.map((val) =>
       InterviewResultMapper.toPersistence(val),

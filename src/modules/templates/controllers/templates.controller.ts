@@ -164,4 +164,52 @@ export class TemplatesController {
   public updateOrder(@Body() dto: OrderDto, @UserId() id: number) {
     return this.service.order(id, dto.templateId, dto.order);
   }
+
+  @ApiOperation({
+    summary: 'Update template name',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
+  @ApiParam({
+    name: 'name',
+    type: 'string',
+  })
+  @Patch('/name')
+  public async updateName(
+    @Param('name') name: string,
+    @Param('id') id: string,
+    @UserId() userId: number,
+  ) {
+    await this.service.updateName(userId, name, id);
+  }
+
+  @ApiOperation({
+    summary: 'Update template isPublic',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
+  @ApiParam({
+    name: 'isPublic',
+    type: 'boolean',
+  })
+  @Patch('/name')
+  public async updateIsPublic(
+    @Param('isPublic') isPublic: boolean,
+    @Param('id') id: string,
+    @UserId() userId: number,
+  ) {
+    await this.service.updateIsPublic(userId, isPublic, id);
+  }
 }

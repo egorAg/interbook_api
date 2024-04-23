@@ -142,4 +142,12 @@ export class TemplateRepository {
   public async updateOrder(id: string, order: string[]) {
     await this.templateRepo.update({ id: id }, { order: order });
   }
+
+  public async updateName(id: string, name: string) {
+    await this.templateRepo.update({ id: id }, { name: name });
+  }
+
+  public async updateIsPublic(id: string, isPublic: boolean) {
+    await this.templateRepo.update({ id: id }, { isPublic: isPublic });
+  }
 }
