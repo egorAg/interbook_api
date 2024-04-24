@@ -49,7 +49,7 @@ export class QuestionModel {
   })
   @Column({
     type: 'text',
-    nullable: false,
+    nullable: true,
   })
   hint: string;
 
