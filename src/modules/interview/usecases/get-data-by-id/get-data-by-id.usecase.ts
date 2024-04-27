@@ -1,11 +1,7 @@
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
 import { Interview } from '../../domain/types/interview';
 import { InterviewRepository } from '../../entities/repositories/interview.repository';
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GetDataByIdUsecase

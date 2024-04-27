@@ -7,7 +7,7 @@ import { Interview } from '../../domain/types/interview';
 
 @Auth
 @ApiTags('Interview')
-@Controller('interview')
+@Controller('interview/history')
 export class HistoryController {
   constructor(private readonly usecase: HistoryUsecase) {}
 
@@ -21,8 +21,9 @@ export class HistoryController {
     type: Interview,
     isArray: true,
   })
-  @Get('all')
+  @Get('/all-interviews')
   public execute(@UserId() id: number) {
+    console.log(id);
     return this.usecase.execute({ userId: id });
   }
 }

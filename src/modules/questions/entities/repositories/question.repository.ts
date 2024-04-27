@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TagModel } from 'src/modules/tags/entities/models/tag.entity';
 import { UserModel } from 'src/modules/user/entities/models/user.model';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { QuestionFilterDto } from '../../dto/question.filter.dto';
 import { Question } from '../../types/question.type';
 import { QuestionModel } from '../models/question.model';
@@ -20,7 +20,7 @@ export class QuestionRepository {
     searchDto: QuestionFilterDto,
   ): Promise<Question[]> {
     let { page, pageSize } = searchDto;
-    const whereCondition: FindOptionsWhere<QuestionModel> = {};
+    const qb = this.dataSource.createQueryBuilder('question');
 
     if (!page) {
       page = 1;
@@ -30,38 +30,33 @@ export class QuestionRepository {
     }
 
     if (searchDto.name) {
-      whereCondition.name = ILike(`%${searchDto.name}%`);
+      qb.where('question.name ILIKE :name', { name: `%${searchDto.name}%` });
     }
 
     if (searchDto.tagIds && searchDto.tagIds.length > 0) {
-      whereCondition.tags = searchDto.tagIds.map((tagId) => ({ id: tagId }));
+      qb.innerJoinAndSelect('question.tags', 'tag', 'tag.id IN (:...tagIds)', {
+        tagIds: searchDto.tagIds,
+      });
     }
 
-    if (!searchDto.isPublic) {
-      whereCondition.isPublic = false;
-      whereCondition.creator = {
-        id: searchDto.userId,
-      };
-    }
-
-    return await this.dataSource.find({
-      where: whereCondition,
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      relations: {
-        tags: true,
-      },
+    qb.andWhere('(question.isPublic = true OR question.creator.id = :userId)', {
+      userId: searchDto.userId,
     });
+
+    qb.skip((page - 1) * pageSize).take(pageSize);
+
+    return await qb.getMany();
   }
 
   public async createQuestion(
-    question: Pick<Question, 'name'>,
+    question: Pick<Question, 'name' | 'hint'>,
     user: UserModel,
     tags?: TagModel[],
   ) {
     const newQuestion = new QuestionModel();
     newQuestion.name = question.name;
     newQuestion.creator = user;
+    newQuestion.hint = question.hint;
 
     if (Array.isArray(tags) && tags.length > 0) {
       newQuestion.tags = tags;
@@ -75,6 +70,7 @@ export class QuestionRepository {
   public async updateQuestion(
     questionId: number,
     newName?: string,
+    newHint?: string,
     tags?: TagModel[],
   ) {
     const questionToUpdate = await this.dataSource.findOne({
@@ -96,6 +92,10 @@ export class QuestionRepository {
 
     if (tags && tags.length > 0) {
       questionToUpdate.tags = tags;
+    }
+
+    if (newHint) {
+      questionToUpdate.hint = newHint;
     }
 
     try {
@@ -121,7 +121,16 @@ export class QuestionRepository {
     await this.dataSource.delete({ id: id });
   }
 
-  public async getById(id: number) {
-    return this.dataSource.findOne({ where: { id } });
+  public async getById(id: number, withUser = false) {
+    return this.dataSource.findOne({
+      where: { id },
+      relations: {
+        creator: withUser,
+      },
+    });
+  }
+
+  public async updateQuestionIsPublic(id: number, isPublic: boolean) {
+    await this.dataSource.update({ id: id }, { isPublic: isPublic });
   }
 }

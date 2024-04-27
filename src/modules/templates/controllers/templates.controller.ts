@@ -204,7 +204,7 @@ export class TemplatesController {
     name: 'isPublic',
     type: 'boolean',
   })
-  @Patch('/name')
+  @Patch('/isPublic')
   public async updateIsPublic(
     @Param('isPublic') isPublic: boolean,
     @Param('id') id: string,

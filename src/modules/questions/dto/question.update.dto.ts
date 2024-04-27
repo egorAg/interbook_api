@@ -35,4 +35,12 @@ export class UpdateQuestionDto {
   @ArrayNotEmpty()
   @IsInt({ each: true })
   tagIds?: number[];
+
+  @ApiProperty({
+    description: 'The new hint of the question.',
+    example: 'How to use NestJS with TypeORM?',
+  })
+  @IsOptional()
+  @IsString()
+  hint?: string;
 }

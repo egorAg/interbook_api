@@ -23,30 +23,14 @@ import { Auth } from 'src/decorators/auth.decorator';
 import { UserId } from 'src/decorators/userid.decorator';
 import { QuestionResponse } from 'src/responses/questios/question.response';
 import { CreateQuestionDto } from '../dto/question.create.dto';
-import { QuestionFilterDto } from '../dto/question.filter.dto';
 import { UpdateQuestionDto } from '../dto/question.update.dto';
 import { QuestionModel } from '../entities/models/question.model';
 import { QuestionsService } from '../services/questions.service';
-import { Question } from '../types/question.type';
 
 @Controller('questions')
 @ApiTags('Questions')
 export class QuestionsController {
   constructor(private readonly service: QuestionsService) {}
-
-  @Auth
-  @Post('find')
-  @ApiOperation({ summary: 'Search questions by tags and name' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of questions found successfully.',
-    type: [QuestionResponse],
-  })
-  async searchQuestions(
-    @Body() searchDto: QuestionFilterDto,
-  ): Promise<Question[]> {
-    return this.service.getAllByFilter(searchDto);
-  }
 
   @Auth
   @Get('/my-questions')
@@ -107,7 +91,13 @@ export class QuestionsController {
     @Query('name') name: string,
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
-    @Query('isPublic') isPublic: boolean,
+    @Query('isPublic', {
+      transform(value: string): boolean {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+      },
+    })
+    isPublic: boolean,
     @UserId() userId: number,
     @Query(
       'tags',
@@ -128,5 +118,23 @@ export class QuestionsController {
   @HttpCode(HttpStatus.OK)
   async softDelete(@Param('id') id: number) {
     await this.service.softDelete(id);
+  }
+
+  @Auth
+  @Patch('/isPublic')
+  @ApiQuery({
+    name: 'id',
+    type: 'string',
+  })
+  @ApiQuery({
+    name: 'isPublic',
+    type: 'boolean',
+  })
+  async updateIsPublic(
+    @Query('id') id: number,
+    @Query('isPublic') isPublic: boolean,
+    @UserId() userId: number,
+  ) {
+    await this.service.setIsPublic(id, isPublic, userId);
   }
 }

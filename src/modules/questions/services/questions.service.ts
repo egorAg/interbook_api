@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { TagsService } from 'src/modules/tags/services/tags.service';
 import { UserService } from 'src/modules/user/services/user.service';
 import { CreateQuestionDto } from '../dto/question.create.dto';
@@ -31,6 +36,7 @@ export class QuestionsService {
     page: number,
     pageSize: number,
   ) {
+    console.log(name, tags, isPublic, userId, page, pageSize);
     return this.questionRepo.findQuestions({
       name: name,
       tagIds: tags?.length ? tags : null,
@@ -41,19 +47,19 @@ export class QuestionsService {
     });
   }
 
-  public async createNew(payload: CreateQuestionDto, userId: number) {
+  public async createNew(
+    { name, hint, tagIds }: CreateQuestionDto,
+    userId: number,
+  ) {
     const user = await this.userService.findUser({ id: userId });
-    if (Array.isArray(payload.tagIds) && payload.tagIds.length > 0) {
-      const tags = await this.tagService.getById(payload.tagIds);
-      return this.questionRepo.createQuestion(
-        { name: payload.name },
-        user,
-        tags,
-      );
+    if (Array.isArray(tagIds) && tagIds.length > 0) {
+      const tags = await this.tagService.getById(tagIds);
+      return this.questionRepo.createQuestion({ name: name, hint }, user, tags);
     } else {
       return this.questionRepo.createQuestion(
         {
-          name: payload.name,
+          name,
+          hint,
         },
         user,
       );
@@ -72,11 +78,22 @@ export class QuestionsService {
     await this.questionRepo.updateQuestion(
       payload.id,
       payload.name,
+      payload.hint,
       tags.length > 0 ? tags : undefined,
     );
   }
 
   public async softDelete(id: number) {
     await this.questionRepo.softDelete(id);
+  }
+
+  public async setIsPublic(id: number, isPublic: boolean, userId: number) {
+    const currentQuestion = await this.questionRepo.getById(id, true);
+    if (currentQuestion.creator.id !== userId) {
+      throw new BadRequestException(
+        'Вы не являетесь создателем данного вопроса',
+      );
+    }
+    await this.questionRepo.updateQuestionIsPublic(id, isPublic);
   }
 }

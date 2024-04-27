@@ -4,6 +4,7 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -25,4 +26,12 @@ export class CreateQuestionDto {
   @ArrayNotEmpty()
   @IsInt({ each: true })
   tagIds: number[];
+
+  @ApiProperty({
+    description: 'Подсказка вопроса',
+    example: 'Test',
+  })
+  @IsOptional()
+  @IsString()
+  hint: string | undefined;
 }
