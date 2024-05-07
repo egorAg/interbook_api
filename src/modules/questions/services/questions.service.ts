@@ -36,7 +36,6 @@ export class QuestionsService {
     page: number,
     pageSize: number,
   ) {
-    console.log(name, tags, isPublic, userId, page, pageSize);
     return this.questionRepo.findQuestions({
       name: name,
       tagIds: tags?.length ? tags : null,

@@ -9,7 +9,7 @@ export class GetDataByIdController {
   constructor(private readonly useCase: GetDataByIdUsecase) {}
 
   @Get(':id')
-  public execute(@Param('id') id: string, @UserId() userId?: number) {
+  public execute(@Param('id') id: string, @UserId() userId: number) {
     return this.useCase.execute({ id: id, requestUserId: userId });
   }
 }

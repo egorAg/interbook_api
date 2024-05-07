@@ -37,6 +37,8 @@ export class QuestionRepository {
       qb.innerJoinAndSelect('question.tags', 'tag', 'tag.id IN (:...tagIds)', {
         tagIds: searchDto.tagIds,
       });
+    } else {
+      qb.innerJoinAndSelect('question.tags', 'tag');
     }
 
     qb.andWhere('(question.isPublic = true OR question.creator.id = :userId)', {
@@ -45,7 +47,9 @@ export class QuestionRepository {
 
     qb.skip((page - 1) * pageSize).take(pageSize);
 
-    return await qb.getMany();
+    const res = await qb.getMany();
+    console.log(res);
+    return res;
   }
 
   public async createQuestion(

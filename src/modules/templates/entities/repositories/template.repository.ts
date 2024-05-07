@@ -140,14 +140,27 @@ export class TemplateRepository {
   }
 
   public async updateOrder(id: string, order: string[]) {
-    await this.templateRepo.update({ id: id }, { order: order });
+    const currentTemplate = await this.templateRepo.findOne({
+      where: { id: id },
+    });
+    currentTemplate.order = order;
+    await this.templateRepo.save(currentTemplate);
   }
 
   public async updateName(id: string, name: string) {
-    await this.templateRepo.update({ id: id }, { name: name });
+    const currentTemplate = await this.templateRepo.findOne({
+      where: { id: id },
+    });
+    currentTemplate.name = name;
+    console.log(currentTemplate);
+    await this.templateRepo.save(currentTemplate);
   }
 
   public async updateIsPublic(id: string, isPublic: boolean) {
-    await this.templateRepo.update({ id: id }, { isPublic: isPublic });
+    const currentTemplate = await this.templateRepo.findOne({
+      where: { id: id },
+    });
+    currentTemplate.isPublic = isPublic;
+    await this.templateRepo.save(currentTemplate);
   }
 }

@@ -172,18 +172,18 @@ export class TemplatesController {
     status: 200,
     description: 'Success',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'id',
     type: 'string',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'name',
     type: 'string',
   })
   @Patch('/name')
   public async updateName(
-    @Param('name') name: string,
-    @Param('id') id: string,
+    @Query('name') name: string,
+    @Query('id') id: string,
     @UserId() userId: number,
   ) {
     await this.service.updateName(userId, name, id);
@@ -196,18 +196,18 @@ export class TemplatesController {
     status: 200,
     description: 'Success',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'id',
     type: 'string',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'isPublic',
     type: 'boolean',
   })
   @Patch('/isPublic')
   public async updateIsPublic(
-    @Param('isPublic') isPublic: boolean,
-    @Param('id') id: string,
+    @Query('isPublic') isPublic: boolean,
+    @Query('id') id: string,
     @UserId() userId: number,
   ) {
     await this.service.updateIsPublic(userId, isPublic, id);

@@ -79,7 +79,6 @@ export class InterviewRepository {
   }
 
   public async getByCandidateIdHistorical(candidateId: number, userId: number) {
-    console.log('here');
     const records = await this.repo.find({
       where: {
         candidate: {
@@ -107,7 +106,9 @@ export class InterviewRepository {
   }
 
   public async updateStatus(id: string, status: InterviewStatusEnum) {
-    await this.repo.update({ id: id }, { status: status });
+    const interview = await this.repo.findOne({ where: { id: id } });
+    interview.status = status;
+    await this.repo.save(interview);
   }
 
   public async getInterviewByQuestionId(questionId: string) {

@@ -2,10 +2,10 @@ import { Auth } from '../../../../decorators/auth.decorator';
 import {
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { Controller, HttpCode, HttpStatus, Param, Patch } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Patch, Query } from '@nestjs/common';
 import { UpdateInterviewStatusUsecase } from './update-interview-status.usecase';
 import { UserId } from '../../../../decorators/userid.decorator';
 import { InterviewStatusEnum } from '../../types/interview-status.enum';
@@ -24,11 +24,11 @@ export class UpdateInterviewStatusController {
   @ApiOkResponse({
     type: 'string',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'id',
     type: 'string',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'status',
     type: 'enum',
     enum: [
@@ -40,8 +40,8 @@ export class UpdateInterviewStatusController {
   @HttpCode(HttpStatus.OK)
   @Patch('/status')
   execute(
-    @Param('id') id: string,
-    @Param('status') status: InterviewStatusEnum,
+    @Query('id') id: string,
+    @Query('status') status: InterviewStatusEnum,
     @UserId() userId: number,
   ) {
     return this.usecase.execute({ requestUserId: userId, status, id });

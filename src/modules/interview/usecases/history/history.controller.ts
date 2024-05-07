@@ -23,7 +23,6 @@ export class HistoryController {
   })
   @Get('/all-interviews')
   public execute(@UserId() id: number) {
-    console.log(id);
     return this.usecase.execute({ userId: id });
   }
 }

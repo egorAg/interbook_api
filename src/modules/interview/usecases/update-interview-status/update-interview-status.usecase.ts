@@ -31,6 +31,5 @@ export class UpdateInterviewStatusUsecase
       throw new ForbiddenException('No access');
     }
     await this.interviewRepo.updateStatus(id, status);
-    return;
   }
 }
