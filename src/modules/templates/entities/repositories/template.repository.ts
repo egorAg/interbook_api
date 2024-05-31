@@ -132,11 +132,21 @@ export class TemplateRepository {
       pageSize = 20;
     }
 
-    return this.templateRepo.find({
+    const data = await this.templateRepo.find({
       where: condition,
       skip: (page - 1) * pageSize,
       take: pageSize,
+      relations: {
+        user: true,
+      },
     });
+
+    data.forEach((record) => {
+      delete record.user.password;
+      delete record.user.refreshToken;
+    });
+
+    return data;
   }
 
   public async updateOrder(id: string, order: string[]) {

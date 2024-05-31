@@ -24,8 +24,8 @@ import { UserId } from 'src/decorators/userid.decorator';
 import { QuestionResponse } from 'src/responses/questios/question.response';
 import { CreateQuestionDto } from '../dto/question.create.dto';
 import { UpdateQuestionDto } from '../dto/question.update.dto';
-import { QuestionModel } from '../entities/models/question.model';
 import { QuestionsService } from '../services/questions.service';
+import { Question } from '../types/question.type';
 
 @Controller('questions')
 @ApiTags('Questions')
@@ -40,8 +40,27 @@ export class QuestionsController {
     description: 'List of questions found successfully.',
     type: [QuestionResponse],
   })
-  async getUserQuestions(@UserId() userId: number): Promise<QuestionModel[]> {
-    return this.service.getAllByUserId(userId);
+  @ApiQuery({ name: 'name', type: 'string', example: 'React', required: false })
+  @ApiQuery({
+    name: 'tags',
+    type: 'string',
+    example: '1,2,3',
+    required: false,
+  })
+  @ApiQuery({ name: 'page', type: 'number', example: 2, required: false })
+  @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
+  async getUserQuestions(
+    @Query('name') name: string,
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+    @UserId() userId: number,
+    @Query(
+      'tags',
+      new ParseArrayPipe({ items: Number, separator: ',', optional: true }),
+    )
+    tags?: number[],
+  ): Promise<Question[]> {
+    return this.service.getAll(name, tags, userId, page, pageSize);
   }
 
   @Auth
@@ -86,18 +105,10 @@ export class QuestionsController {
   })
   @ApiQuery({ name: 'page', type: 'number', example: 2, required: false })
   @ApiQuery({ name: 'pageSize', type: 'number', example: 20, required: false })
-  @ApiQuery({ name: 'isPublic', type: 'boolean', example: false })
   async getAllQuestions(
     @Query('name') name: string,
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
-    @Query('isPublic', {
-      transform(value: string): boolean {
-        if (value === 'true') return true;
-        if (value === 'false') return false;
-      },
-    })
-    isPublic: boolean,
     @UserId() userId: number,
     @Query(
       'tags',
@@ -105,7 +116,7 @@ export class QuestionsController {
     )
     tags?: number[],
   ) {
-    return this.service.getAll(name, tags, isPublic, userId, page, pageSize);
+    return this.service.getAll(name, tags, userId, page, pageSize);
   }
 
   @Auth

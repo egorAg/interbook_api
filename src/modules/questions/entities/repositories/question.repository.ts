@@ -41,15 +41,17 @@ export class QuestionRepository {
       qb.innerJoinAndSelect('question.tags', 'tag');
     }
 
-    qb.andWhere('(question.isPublic = true OR question.creator.id = :userId)', {
-      userId: searchDto.userId,
-    });
+    if (searchDto.userId) {
+      qb.andWhere('(question.creator.id = :userId)', {
+        userId: searchDto.userId,
+      });
+    }
+
+    qb.innerJoinAndSelect('question.creator', 'creator');
 
     qb.skip((page - 1) * pageSize).take(pageSize);
 
-    const res = await qb.getMany();
-    console.log(res);
-    return res;
+    return await qb.getMany();
   }
 
   public async createQuestion(
@@ -111,14 +113,6 @@ export class QuestionRepository {
         HttpStatus.I_AM_A_TEAPOT,
       );
     }
-  }
-
-  public async getAllByUser(user: UserModel) {
-    return this.dataSource.find({
-      where: {
-        creator: user,
-      },
-    });
   }
 
   public async softDelete(id: number) {

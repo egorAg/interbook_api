@@ -57,14 +57,9 @@ export class TemplatesService {
     userId: number,
     page?: number,
     pageSize?: number,
+    name?: string,
   ) {
-    return this.templateRepo.getAll(
-      undefined,
-      undefined,
-      +page,
-      +pageSize,
-      userId,
-    );
+    return this.templateRepo.getAll(undefined, name, +page, +pageSize, userId);
   }
 
   public async order(userId: number, templateId: string, order: string[]) {

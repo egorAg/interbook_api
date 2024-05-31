@@ -57,13 +57,22 @@ export class TemplatesController {
     description: 'Return the templates where user is owner',
     type: TemplateCreateResponse,
   })
+  @ApiQuery({
+    name: 'name',
+    type: 'string',
+    required: false,
+    example: 'Junior',
+  })
+  @ApiQuery({ name: 'page', type: 'number', required: false, example: 1 })
+  @ApiQuery({ name: 'pageSize', type: 'number', required: false, example: 20 })
   @Get('user')
   public getAllTemplates(
-    @UserId() id: number,
+    @UserId() userId: number,
+    @Query('name') name?: string,
     @Query('page') page?: number,
     @Query('pageSize') pageSize?: number,
   ) {
-    return this.service.getAllTemplatesByUser(id, page, pageSize);
+    return this.service.getAllTemplatesByUser(userId, page, pageSize, name);
   }
 
   @ApiOperation({ summary: 'Get all template data by id' })

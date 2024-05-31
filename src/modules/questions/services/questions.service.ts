@@ -23,27 +23,27 @@ export class QuestionsService {
     return this.questionRepo.findQuestions(payload);
   }
 
-  public async getAllByUserId(userId: number) {
-    const user = await this.userService.findUser({ id: userId });
-    return this.questionRepo.getAllByUser(user);
-  }
-
   public async getAll(
     name: string,
     tags: number[],
-    isPublic: boolean,
     userId: number,
     page: number,
     pageSize: number,
   ) {
-    return this.questionRepo.findQuestions({
+    const questions = await this.questionRepo.findQuestions({
       name: name,
       tagIds: tags?.length ? tags : null,
-      isPublic,
       userId,
       page: page,
       pageSize: pageSize,
     });
+
+    for (const question of questions) {
+      delete question.creator.refreshToken;
+      delete question.creator.password;
+    }
+
+    return questions;
   }
 
   public async createNew(

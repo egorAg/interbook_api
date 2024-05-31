@@ -16,6 +16,7 @@ import { CandidateModel } from './modules/candidates/entities/models/candidate.m
 import { InterviewModel } from './modules/interview/entities/models/interview.model';
 import { InterviewResultModel } from './modules/interview/entities/models/interview.result.model';
 import { InterviewModule } from './modules/interview/interview.module';
+import { MeModule } from './modules/user/usecases/me/me.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { InterviewModule } from './modules/interview/interview.module';
     TemplatesModule,
     CandidatesModule,
     InterviewModule,
+    MeModule,
   ],
 })
 export class AppModule {}
