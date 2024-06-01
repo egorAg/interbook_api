@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { TemplateEntity } from '../models/template.entity';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { TemplateQuestionModel } from '../models/template-question.entity';
-import { UserModel } from '../../../user/entities/models/user.model';
-import { QuestionModel } from '../../../questions/entities/models/question.model';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { FindOptionsWhere, ILike, Repository } from 'typeorm'
+import { QuestionModel } from '../../../questions/entities/models/question.model'
+import { UserModel } from '../../../user/entities/models/user.model'
+import { TemplateQuestionModel } from '../models/template-question.entity'
+import { TemplateEntity } from '../models/template.entity'
 
 @Injectable()
 export class TemplateRepository {
@@ -58,6 +58,7 @@ export class TemplateRepository {
         questions: {
           question: true,
         },
+        user: true,
       },
     });
   }

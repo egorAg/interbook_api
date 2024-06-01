@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-} from '@nestjs/common';
+} from '@nestjs/common'
 import {
   ApiBody,
   ApiOperation,
@@ -18,14 +18,14 @@ import {
   ApiQuery,
   ApiResponse,
   ApiTags,
-} from '@nestjs/swagger';
-import { Auth } from 'src/decorators/auth.decorator';
-import { UserId } from 'src/decorators/userid.decorator';
-import { QuestionResponse } from 'src/responses/questios/question.response';
-import { CreateQuestionDto } from '../dto/question.create.dto';
-import { UpdateQuestionDto } from '../dto/question.update.dto';
-import { QuestionsService } from '../services/questions.service';
-import { Question } from '../types/question.type';
+} from '@nestjs/swagger'
+import { Auth } from 'src/decorators/auth.decorator'
+import { UserId } from 'src/decorators/userid.decorator'
+import { QuestionResponse } from 'src/responses/questios/question.response'
+import { CreateQuestionDto } from '../dto/question.create.dto'
+import { UpdateQuestionDto } from '../dto/question.update.dto'
+import { QuestionsService } from '../services/questions.service'
+import { Question } from '../types/question.type'
 
 @Controller('questions')
 @ApiTags('Questions')
@@ -60,7 +60,7 @@ export class QuestionsController {
     )
     tags?: number[],
   ): Promise<Question[]> {
-    return this.service.getAll(name, tags, userId, page, pageSize);
+    return this.service.getAll(name, tags, page, pageSize, userId);
   }
 
   @Auth
@@ -116,7 +116,7 @@ export class QuestionsController {
     )
     tags?: number[],
   ) {
-    return this.service.getAll(name, tags, userId, page, pageSize);
+    return this.service.getAll(name, tags, page, pageSize);
   }
 
   @Auth

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'
 import {
   CandidateHistoryModule,
   ChangeVisibilityModule,
@@ -8,7 +8,8 @@ import {
   UpdateInterviewStatusModule,
   UpdateQuestionModule,
   UpdateQuestionResultModule,
-} from './usecases';
+} from './usecases'
+import { UpdateFinalFeedbackModule } from './usecases/update-final-feedback/update-final-feedback.module'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import {
     UpdateQuestionModule,
     UpdateInterviewStatusModule,
     UpdateQuestionResultModule,
+    UpdateFinalFeedbackModule
   ],
 })
 export class InterviewModule {}

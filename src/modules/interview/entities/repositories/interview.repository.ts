@@ -1,12 +1,12 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { InterviewModel } from '../models/interview.model';
-import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
-import { TemplateEntity } from '../../../templates/entities/models/template.entity';
-import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
-import { UserModel } from '../../../user/entities/models/user.model';
-import { InterviewMapper } from '../../domain/mappers/interview.mapper';
-import { InterviewStatusEnum } from '../../types/interview-status.enum';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CandidateModel } from '../../../candidates/entities/models/candidate.model'
+import { TemplateEntity } from '../../../templates/entities/models/template.entity'
+import { UserModel } from '../../../user/entities/models/user.model'
+import { InterviewMapper } from '../../domain/mappers/interview.mapper'
+import { InterviewStatusEnum } from '../../types/interview-status.enum'
+import { InterviewModel } from '../models/interview.model'
 
 @Injectable()
 export class InterviewRepository {
@@ -73,6 +73,10 @@ export class InterviewRepository {
       order: {
         date: 'DESC',
       },
+      relations: {
+        candidate: true,
+        template: true,
+      },
     });
 
     return records.map((val) => InterviewMapper.toDomain(val));
@@ -130,5 +134,12 @@ export class InterviewRepository {
     if (result) {
       return InterviewMapper.toDomain(result);
     }
+  }
+
+  public async updateFeedback(feedback: string, id: string) {
+    const interview = await this.repo.findOne({ where: { id: id } });
+    interview.finalFeedback = feedback;
+    await this.repo.save(interview);
+    return InterviewMapper.toDomain(interview);
   }
 }

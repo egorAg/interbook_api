@@ -1,10 +1,10 @@
-import { InterviewResult } from './interview.result';
-import { TemplateEntity } from '../../../templates/entities/models/template.entity';
-import { Candidate } from '../../../candidates/domain/types/candidate';
-import { User } from '../../../user/types/user.type';
-import { ApiProperty } from '@nestjs/swagger';
-import { UserModel } from '../../../user/entities/models/user.model';
-import { InterviewStatusEnum } from '../../types/interview-status.enum';
+import { ApiProperty } from '@nestjs/swagger'
+import { Candidate } from '../../../candidates/domain/types/candidate'
+import { TemplateEntity } from '../../../templates/entities/models/template.entity'
+import { UserModel } from '../../../user/entities/models/user.model'
+import { User } from '../../../user/types/user.type'
+import { InterviewStatusEnum } from '../../types/interview-status.enum'
+import { InterviewResult } from './interview.result'
 
 export class Interview {
   @ApiProperty({
@@ -56,4 +56,11 @@ export class Interview {
 
   @ApiProperty({ type: 'date', example: new Date() })
   date: Date;
+
+  @ApiProperty({
+    type: 'string',
+    example:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, in.',
+  })
+  finalFeedback: string;
 }

@@ -1,8 +1,8 @@
-import { Interview } from '../types/interview';
-import { InterviewModel } from '../../entities/models/interview.model';
-import { CandidateMapper } from '../../../candidates/domain/mappers/candidate.mapper';
-import { InterviewResultMapper } from './interview.result.mapper';
-import { User } from '../../../user/types/user.type';
+import { CandidateMapper } from '../../../candidates/domain/mappers/candidate.mapper'
+import { User } from '../../../user/types/user.type'
+import { InterviewModel } from '../../entities/models/interview.model'
+import { Interview } from '../types/interview'
+import { InterviewResultMapper } from './interview.result.mapper'
 
 export class InterviewMapper {
   static toDomain(raw: InterviewModel): Interview {
@@ -15,6 +15,7 @@ export class InterviewMapper {
       res.result = raw.result.map((val) => InterviewResultMapper.toDomain(val));
     if (raw.date) res.date = raw.date;
     if (raw.status) res.status = raw.status;
+    if (raw.finalFeedback) res.finalFeedback = raw.finalFeedback;
     if (raw.user)
       res.user = {
         id: raw.user.id,
@@ -30,6 +31,7 @@ export class InterviewMapper {
     res.template = raw.template;
     res.status = raw.status;
     res.candidate = CandidateMapper.toPersistence(raw.candidate);
+    if (raw.finalFeedback) res.finalFeedback = raw.finalFeedback;
     res.result = raw.result.map((val) =>
       InterviewResultMapper.toPersistence(val),
     );

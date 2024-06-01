@@ -3,13 +3,13 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-} from '@nestjs/common';
-import { TagsService } from 'src/modules/tags/services/tags.service';
-import { UserService } from 'src/modules/user/services/user.service';
-import { CreateQuestionDto } from '../dto/question.create.dto';
-import { QuestionFilterDto } from '../dto/question.filter.dto';
-import { UpdateQuestionDto } from '../dto/question.update.dto';
-import { QuestionRepository } from '../entities/repositories/question.repository';
+} from '@nestjs/common'
+import { TagsService } from 'src/modules/tags/services/tags.service'
+import { UserService } from 'src/modules/user/services/user.service'
+import { CreateQuestionDto } from '../dto/question.create.dto'
+import { QuestionFilterDto } from '../dto/question.filter.dto'
+import { UpdateQuestionDto } from '../dto/question.update.dto'
+import { QuestionRepository } from '../entities/repositories/question.repository'
 
 @Injectable()
 export class QuestionsService {
@@ -26,9 +26,9 @@ export class QuestionsService {
   public async getAll(
     name: string,
     tags: number[],
-    userId: number,
     page: number,
     pageSize: number,
+    userId?: number,
   ) {
     const questions = await this.questionRepo.findQuestions({
       name: name,
