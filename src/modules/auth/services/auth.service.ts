@@ -66,9 +66,7 @@ export class AuthService {
   }
 
   public async refreshTokens(userId: number) {
-    const user = await this.userService.findUser({
-      id: userId,
-    });
+    const user = await this.userService.findById(userId);
 
     const tokens = await this.generateTokenPair(user);
 

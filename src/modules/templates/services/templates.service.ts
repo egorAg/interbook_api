@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { QuestionCreateDto } from '../dto/question.create.dto'
-import { TemplateCreateDto } from '../dto/template.create.dto'
-import { TemplateRepository } from '../entities/repositories/template.repository'
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { QuestionCreateDto } from '../dto/question.create.dto';
+import { TemplateCreateDto } from '../dto/template.create.dto';
+import { TemplateRepository } from '../entities/repositories/template.repository';
 
 @Injectable()
 export class TemplatesService {
@@ -33,6 +33,7 @@ export class TemplatesService {
     const res = await this.templateRepo.getFullById(id);
     delete res.user.password;
     delete res.user.refreshToken;
+    return res;
   }
 
   public async getSimilarByName(name: string) {

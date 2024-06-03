@@ -3,13 +3,13 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-} from '@nestjs/common'
-import { TagsService } from 'src/modules/tags/services/tags.service'
-import { UserService } from 'src/modules/user/services/user.service'
-import { CreateQuestionDto } from '../dto/question.create.dto'
-import { QuestionFilterDto } from '../dto/question.filter.dto'
-import { UpdateQuestionDto } from '../dto/question.update.dto'
-import { QuestionRepository } from '../entities/repositories/question.repository'
+} from '@nestjs/common';
+import { TagsService } from 'src/modules/tags/services/tags.service';
+import { UserService } from 'src/modules/user/services/user.service';
+import { CreateQuestionDto } from '../dto/question.create.dto';
+import { QuestionFilterDto } from '../dto/question.filter.dto';
+import { UpdateQuestionDto } from '../dto/question.update.dto';
+import { QuestionRepository } from '../entities/repositories/question.repository';
 
 @Injectable()
 export class QuestionsService {
@@ -50,7 +50,7 @@ export class QuestionsService {
     { name, hint, tagIds }: CreateQuestionDto,
     userId: number,
   ) {
-    const user = await this.userService.findUser({ id: userId });
+    const user = await this.userService.findById(userId);
     if (Array.isArray(tagIds) && tagIds.length > 0) {
       const tags = await this.tagService.getById(tagIds);
       return this.questionRepo.createQuestion({ name: name, hint }, user, tags);
