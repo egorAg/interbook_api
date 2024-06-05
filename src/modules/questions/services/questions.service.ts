@@ -66,7 +66,7 @@ export class QuestionsService {
   }
 
   public async updateQuestion(payload: UpdateQuestionDto, userId: number) {
-    const currentQuestion = await this.questionRepo.getById(payload.id);
+    const currentQuestion = await this.questionRepo.getById(payload.id, true);
     if (currentQuestion.creator.id !== userId) {
       throw new HttpException(
         'Вопрос может редактировать только создатель',

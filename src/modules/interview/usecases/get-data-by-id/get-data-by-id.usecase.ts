@@ -17,6 +17,8 @@ export class GetDataByIdUsecase
     requestUserId?: number;
   }): Promise<Interview> {
     const interview = await this.interviewRepo.getInterviewData(id, true);
+    delete interview.user.password;
+    delete interview.user.refreshToken;
     if (interview.user.id === requestUserId) {
       return interview;
     } else if (interview.isResultPublished) {

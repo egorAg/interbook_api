@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { CandidateModel } from '../../../candidates/entities/models/candidate.model'
-import { TemplateEntity } from '../../../templates/entities/models/template.entity'
-import { UserModel } from '../../../user/entities/models/user.model'
-import { InterviewMapper } from '../../domain/mappers/interview.mapper'
-import { InterviewStatusEnum } from '../../types/interview-status.enum'
-import { InterviewModel } from '../models/interview.model'
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
+import { TemplateEntity } from '../../../templates/entities/models/template.entity';
+import { UserModel } from '../../../user/entities/models/user.model';
+import { InterviewMapper } from '../../domain/mappers/interview.mapper';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
+import { InterviewModel } from '../models/interview.model';
 
 @Injectable()
 export class InterviewRepository {
@@ -41,26 +41,28 @@ export class InterviewRepository {
   }
 
   public async getInterviewData(id: string, withUser = false) {
-    return InterviewMapper.toDomain(
-      await this.repo.findOne({
-        where: {
-          id: id,
+    const interview = await this.repo.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        candidate: true,
+        result: {
+          question: true,
         },
-        relations: {
-          candidate: true,
-          template: {
-            questions: {
-              question: true,
-            },
+        template: {
+          questions: {
+            question: true,
           },
-          result: true,
-          user: withUser,
         },
-        order: {
-          date: 'DESC',
-        },
-      }),
-    );
+        user: withUser,
+      },
+      order: {
+        date: 'DESC',
+      },
+    });
+    console.log(interview);
+    return interview;
   }
 
   public async getHistorical(userId: number) {
