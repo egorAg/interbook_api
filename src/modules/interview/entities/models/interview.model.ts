@@ -4,12 +4,12 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm'
-import { CandidateModel } from '../../../candidates/entities/models/candidate.model'
-import { TemplateEntity } from '../../../templates/entities/models/template.entity'
-import { UserModel } from '../../../user/entities/models/user.model'
-import { InterviewStatusEnum } from '../../types/interview-status.enum'
-import { InterviewResultModel } from './interview.result.model'
+} from 'typeorm';
+import { CandidateModel } from '../../../candidates/entities/models/candidate.model';
+import { TemplateEntity } from '../../../templates/entities/models/template.entity';
+import { UserModel } from '../../../user/entities/models/user.model';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
+import { InterviewResultModel } from './interview.result.model';
 
 @Entity('interview')
 export class InterviewModel {

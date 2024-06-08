@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { Candidate } from '../../../candidates/domain/types/candidate'
-import { TemplateEntity } from '../../../templates/entities/models/template.entity'
-import { UserModel } from '../../../user/entities/models/user.model'
-import { User } from '../../../user/types/user.type'
-import { InterviewStatusEnum } from '../../types/interview-status.enum'
-import { InterviewResult } from './interview.result'
+import { ApiProperty } from '@nestjs/swagger';
+import { Candidate } from '../../../candidates/domain/types/candidate';
+import { TemplateEntity } from '../../../templates/entities/models/template.entity';
+import { UserModel } from '../../../user/entities/models/user.model';
+import { User } from '../../../user/types/user.type';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
+import { InterviewResult } from './interview.result';
 
 export class Interview {
   @ApiProperty({

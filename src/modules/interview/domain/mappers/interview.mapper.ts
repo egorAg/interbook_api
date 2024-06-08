@@ -1,8 +1,8 @@
-import { CandidateMapper } from '../../../candidates/domain/mappers/candidate.mapper'
-import { User } from '../../../user/types/user.type'
-import { InterviewModel } from '../../entities/models/interview.model'
-import { Interview } from '../types/interview'
-import { InterviewResultMapper } from './interview.result.mapper'
+import { CandidateMapper } from '../../../candidates/domain/mappers/candidate.mapper';
+import { User } from '../../../user/types/user.type';
+import { InterviewModel } from '../../entities/models/interview.model';
+import { Interview } from '../types/interview';
+import { InterviewResultMapper } from './interview.result.mapper';
 
 export class InterviewMapper {
   static toDomain(raw: InterviewModel): Interview {

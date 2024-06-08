@@ -3,12 +3,12 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-} from '@nestjs/common'
-import { IUsecase } from '../../../../lib/interfaces/usecase.interface'
-import { Interview } from '../../domain/types/interview'
-import { UpdateFinalFeedbackDto } from '../../dto/update-final-feedback.dto'
-import { InterviewRepository } from '../../entities/repositories/interview.repository'
-import { InterviewStatusEnum } from '../../types/interview-status.enum'
+} from '@nestjs/common';
+import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
+import { Interview } from '../../domain/types/interview';
+import { UpdateFinalFeedbackDto } from '../../dto/update-final-feedback.dto';
+import { InterviewRepository } from '../../entities/repositories/interview.repository';
+import { InterviewStatusEnum } from '../../types/interview-status.enum';
 
 @Injectable()
 export class UpdateFinalFeedbackUsecase

@@ -1,10 +1,10 @@
-import { Body, Controller, HttpCode, HttpStatus, Patch } from '@nestjs/common'
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { Auth } from '../../../../decorators/auth.decorator'
-import { UserId } from '../../../../decorators/userid.decorator'
-import { InterviewResult } from '../../domain/types/interview.result'
-import { UpdateFinalFeedbackDto } from '../../dto/update-final-feedback.dto'
-import { UpdateFinalFeedbackUsecase } from './update-final-feedback.usecase'
+import { Body, Controller, HttpCode, HttpStatus, Patch } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Auth } from '../../../../decorators/auth.decorator';
+import { UserId } from '../../../../decorators/userid.decorator';
+import { InterviewResult } from '../../domain/types/interview.result';
+import { UpdateFinalFeedbackDto } from '../../dto/update-final-feedback.dto';
+import { UpdateFinalFeedbackUsecase } from './update-final-feedback.usecase';
 
 @Auth
 @ApiTags('Interview')

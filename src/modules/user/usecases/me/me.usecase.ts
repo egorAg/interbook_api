@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { IUsecase } from '../../../../lib/interfaces/usecase.interface'
-import { UserService } from '../../services/user.service'
-import { User } from '../../types/user.type'
+import { Injectable } from '@nestjs/common';
+import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
+import { UserService } from '../../services/user.service';
+import { User } from '../../types/user.type';
 
 @Injectable()
 export class MeUsecase implements IUsecase<number, Promise<User>> {

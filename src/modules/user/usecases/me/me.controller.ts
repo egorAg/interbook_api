@@ -1,8 +1,8 @@
-import { Controller, Get } from '@nestjs/common'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { Auth } from '../../../../decorators/auth.decorator'
-import { UserId } from '../../../../decorators/userid.decorator'
-import { MeUsecase } from './me.usecase'
+import { Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Auth } from '../../../../decorators/auth.decorator';
+import { UserId } from '../../../../decorators/userid.decorator';
+import { MeUsecase } from './me.usecase';
 
 @Auth
 @ApiTags('User')
@@ -18,7 +18,7 @@ export class MeController {
   @Get('/me')
   public async execute(@UserId() userId: number) {
     console.log(userId);
-    
+
     return this.usecase.execute(userId);
   }
 }
