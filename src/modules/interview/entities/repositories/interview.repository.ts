@@ -103,12 +103,18 @@ export class InterviewRepository {
   }
 
   public async changeVisibility(id: string, visibility: boolean) {
-    await this.repo.update(
-      {
+    const record = await this.repo.findOne({
+      where: {
         id: id,
       },
-      { isResultPublished: visibility },
-    );
+    });
+    console.log(record);
+    console.log(visibility);
+
+    if (!record) {
+      return;
+    }
+    await this.repo.save({ ...record, isResultPublished: visibility });
   }
 
   public async updateStatus(id: string, status: InterviewStatusEnum) {

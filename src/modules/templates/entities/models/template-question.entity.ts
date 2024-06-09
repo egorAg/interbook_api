@@ -1,7 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { QuestionModel } from '../../../questions/entities/models/question.model';
 import { TemplateEntity } from './template.entity';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('template-questions')
 export class TemplateQuestionModel {
@@ -13,11 +13,14 @@ export class TemplateQuestionModel {
   id: string;
 
   @ApiProperty({
-    type: QuestionModel,
+    type: () => QuestionModel,
     example: QuestionModel,
     isArray: false,
   })
-  @ManyToOne(() => QuestionModel, (model) => model.templateQuestion)
+  @ManyToOne(() => QuestionModel, (model) => model.templateQuestion, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   question: QuestionModel;
 
   @ManyToOne(() => TemplateEntity, (model) => model.questions, {

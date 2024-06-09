@@ -51,7 +51,7 @@ export class InterviewModel {
   result: InterviewResultModel[];
 
   @ManyToOne(() => CandidateModel, (model) => model.interviews, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   candidate: CandidateModel;
 }

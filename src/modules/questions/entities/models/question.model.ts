@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { TagModel } from 'src/modules/tags/entities/models/tag.entity';
 import { UserModel } from 'src/modules/user/entities/models/user.model';
 import {
@@ -9,9 +10,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TemplateQuestionModel } from '../../../templates/entities/models/template-question.entity';
 import { InterviewResultModel } from '../../../interview/entities/models/interview.result.model';
-import { ApiProperty } from '@nestjs/swagger';
+import { TemplateQuestionModel } from '../../../templates/entities/models/template-question.entity';
 
 @Entity('questions')
 export class QuestionModel {
@@ -62,7 +62,9 @@ export class QuestionModel {
   @JoinTable()
   tags: TagModel[];
 
-  @OneToMany(() => TemplateQuestionModel, (model) => model.question)
+  @OneToMany(() => TemplateQuestionModel, (model) => model.question, {
+    cascade: true,
+  })
   @JoinTable()
   templateQuestion: TemplateQuestionModel[];
 

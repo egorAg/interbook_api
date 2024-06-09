@@ -1,8 +1,8 @@
+import { Controller, Patch, Query } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../../../../decorators/auth.decorator';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-import { Controller, Param, Patch } from '@nestjs/common';
-import { ChangeVisibilityUsecase } from './change-visibility.usecase';
 import { UserId } from '../../../../decorators/userid.decorator';
+import { ChangeVisibilityUsecase } from './change-visibility.usecase';
 
 @Auth
 @ApiTags('Interview')
@@ -15,13 +15,13 @@ export class ChangeVisibilityController {
     description:
       'If result set to public - everyone can get access for result by interviewId',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'id',
     type: 'string',
     required: true,
     example: 'some-uuid-v4-here',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'visibility',
     type: 'boolean',
     required: true,
@@ -29,8 +29,8 @@ export class ChangeVisibilityController {
   })
   @Patch('visibility')
   public execute(
-    @Param('id') id: string,
-    @Param('visibility') visibility: boolean,
+    @Query('id') id: string,
+    @Query('visibility') visibility: boolean,
     @UserId() userId: number,
   ) {
     return this.usecase.execute({
