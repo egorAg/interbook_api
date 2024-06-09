@@ -5,8 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
-import { QuestionResultUpdateDto } from '../../dto/question-result.update.dto';
 import { InterviewResult } from '../../domain/types/interview.result';
+import { QuestionResultUpdateDto } from '../../dto/question-result.update.dto';
 import { InterviewRepository } from '../../entities/repositories/interview.repository';
 import { InterviewResultRepository } from '../../entities/repositories/interview.result.repository';
 import { InterviewStatusEnum } from '../../types/interview-status.enum';
@@ -34,7 +34,6 @@ export class UpdateQuestionResultUsecase
     const interview = await this.interviewRepo.getInterviewByQuestionId(
       payload.id,
     );
-
     if (!interview) {
       throw new NotFoundException();
     }

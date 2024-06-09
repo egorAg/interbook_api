@@ -17,8 +17,6 @@ export class MeController {
   })
   @Get('/me')
   public async execute(@UserId() userId: number) {
-    console.log(userId);
-
     return this.usecase.execute(userId);
   }
 }

@@ -41,13 +41,17 @@ export class InterviewModel {
   })
   finalFeedback: string;
 
-  @ManyToOne(() => TemplateEntity, (model) => model.interviews)
+  @ManyToOne(() => TemplateEntity, (model) => model.interviews, {
+    onDelete: 'CASCADE',
+  })
   template: TemplateEntity;
 
   @ManyToOne(() => UserModel, (model) => model.interviews)
   user: UserModel;
 
-  @OneToMany(() => InterviewResultModel, (model) => model.interview)
+  @OneToMany(() => InterviewResultModel, (model) => model.interview, {
+    cascade: true,
+  })
   result: InterviewResultModel[];
 
   @ManyToOne(() => CandidateModel, (model) => model.interviews, {

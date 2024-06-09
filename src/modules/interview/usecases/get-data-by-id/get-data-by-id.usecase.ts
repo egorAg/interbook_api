@@ -17,7 +17,6 @@ export class GetDataByIdUsecase
     requestUserId?: number;
   }): Promise<Interview> {
     const interview = await this.interviewRepo.getInterviewData(id, true);
-    console.log(interview);
 
     delete interview.user.password;
     delete interview.user.refreshToken;

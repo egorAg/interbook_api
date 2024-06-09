@@ -163,7 +163,6 @@ export class TemplateRepository {
       where: { id: id },
     });
     currentTemplate.name = name;
-    console.log(currentTemplate);
     await this.templateRepo.save(currentTemplate);
   }
 

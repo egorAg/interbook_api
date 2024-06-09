@@ -61,7 +61,6 @@ export class InterviewRepository {
         date: 'DESC',
       },
     });
-    console.log(interview);
     return interview;
   }
 
@@ -108,11 +107,8 @@ export class InterviewRepository {
         id: id,
       },
     });
-    console.log('vis in repo');
-    console.log(visibility);
 
     if (!record) {
-      console.log('no record find');
       return;
     }
     record.isResultPublished = visibility === 'true';

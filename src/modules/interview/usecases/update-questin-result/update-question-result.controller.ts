@@ -1,9 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Patch } from '@nestjs/common';
-import { Auth } from '../../../../decorators/auth.decorator';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { QuestionResultUpdateDto } from '../../dto/question-result.update.dto';
+import { Auth } from '../../../../decorators/auth.decorator';
 import { UserId } from '../../../../decorators/userid.decorator';
 import { InterviewResult } from '../../domain/types/interview.result';
+import { QuestionResultUpdateDto } from '../../dto/question-result.update.dto';
 import { UpdateQuestionResultUsecase } from './update-question-result.usecase';
 
 @Auth

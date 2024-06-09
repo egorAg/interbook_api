@@ -40,14 +40,7 @@ export class AuthService {
 
     if (!user) {
       throw new HttpException(
-        `User with login: ${data.login} not found`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    if (!user.password) {
-      throw new HttpException(
-        'Please, use Discord to authorize',
+        `Неправильный логин или пароль`,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -55,7 +48,10 @@ export class AuthService {
     const isPasswordValid = await this.compare(data.password, user.password);
 
     if (!isPasswordValid) {
-      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Неправильный логин или пароль',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const tokens = await this.generateTokenPair(user);

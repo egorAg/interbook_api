@@ -23,8 +23,6 @@ export class ChangeVisibilityUsecase
   }): Promise<void> {
     const candidate = await this.repo.getInterviewData(id, true);
     if (candidate.user.id !== requestUserId) {
-      console.log('no access');
-
       throw new ForbiddenException('You have no access');
     }
     await this.repo.changeVisibility(id, visibility);

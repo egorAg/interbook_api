@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   Entity,
@@ -7,10 +8,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TemplateQuestionModel } from './template-question.entity';
-import { UserModel } from '../../../user/entities/models/user.model';
 import { InterviewModel } from '../../../interview/entities/models/interview.model';
-import { ApiProperty } from '@nestjs/swagger';
+import { UserModel } from '../../../user/entities/models/user.model';
+import { TemplateQuestionModel } from './template-question.entity';
 
 @Entity('templates')
 export class TemplateEntity {
@@ -59,7 +59,9 @@ export class TemplateEntity {
   @ManyToOne(() => UserModel, (model) => model.questions)
   user: UserModel;
 
-  @OneToMany(() => InterviewModel, (model) => model.template)
+  @OneToMany(() => InterviewModel, (model) => model.template, {
+    cascade: true,
+  })
   @JoinTable()
   interviews: InterviewModel[];
 }
