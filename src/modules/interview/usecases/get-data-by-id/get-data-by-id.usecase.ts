@@ -1,7 +1,7 @@
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
 import { Interview } from '../../domain/types/interview';
 import { InterviewRepository } from '../../entities/repositories/interview.repository';
-import { ForbiddenException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GetDataByIdUsecase
@@ -17,11 +17,13 @@ export class GetDataByIdUsecase
     requestUserId?: number;
   }): Promise<Interview> {
     const interview = await this.interviewRepo.getInterviewData(id, true);
+    console.log(interview);
+
     delete interview.user.password;
     delete interview.user.refreshToken;
-    if (interview.user.id === requestUserId) {
+    if (interview.isResultPublished) {
       return interview;
-    } else if (interview.isResultPublished) {
+    } else if (interview.user.id === requestUserId) {
       return interview;
     } else if (
       !interview.isResultPublished &&

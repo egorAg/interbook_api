@@ -1,6 +1,6 @@
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { IUsecase } from '../../../../lib/interfaces/usecase.interface';
 import { InterviewRepository } from '../../entities/repositories/interview.repository';
-import { ForbiddenException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ChangeVisibilityUsecase
@@ -23,6 +23,8 @@ export class ChangeVisibilityUsecase
   }): Promise<void> {
     const candidate = await this.repo.getInterviewData(id, true);
     if (candidate.user.id !== requestUserId) {
+      console.log('no access');
+
       throw new ForbiddenException('You have no access');
     }
     await this.repo.changeVisibility(id, visibility);

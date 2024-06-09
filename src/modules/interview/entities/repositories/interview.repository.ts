@@ -102,19 +102,21 @@ export class InterviewRepository {
     return records.map((val) => InterviewMapper.toDomain(val));
   }
 
-  public async changeVisibility(id: string, visibility: boolean) {
+  public async changeVisibility(id: string, visibility: boolean | string) {
     const record = await this.repo.findOne({
       where: {
         id: id,
       },
     });
-    console.log(record);
+    console.log('vis in repo');
     console.log(visibility);
 
     if (!record) {
+      console.log('no record find');
       return;
     }
-    await this.repo.save({ ...record, isResultPublished: visibility });
+    record.isResultPublished = visibility === 'true';
+    await this.repo.save(record);
   }
 
   public async updateStatus(id: string, status: InterviewStatusEnum) {
